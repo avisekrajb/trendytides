@@ -1,0 +1,1206 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Shopping App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+
+  <style>
+   .video-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .video-popup.active {
+            display: flex;
+        }
+
+
+ .carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .carousel img {
+            scroll-snap-align: start;
+            flex-shrink: 0;
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .carousel-dot.active {
+            background-color: darkred;
+        }
+  </style>
+
+ </head>
+<body class="bg-gray-100 overflow-x-hidden">
+    <div class="flex items-center justify-between p-4 relative bg-white shadow-md">
+        <div class="relative">
+            <img alt="Empty Profile Icon" class="w-10 h-10 rounded-full cursor-pointer" height="40" id="profile-icon" onclick="toggleProfilePopup()" src="https://storage.googleapis.com/a1aa/image/dW_whs8jHB6LZufF8bDlqLCkXeHz4aR-gsBhtYbTVJ8.jpg" width="40"/>
+            <div class="absolute top-12 left-0 bg-white border rounded-md shadow-md p-4 hidden" id="profile-popup">
+                <button class="absolute top-2 right-2 text-xl" onclick="toggleProfilePopup()">×</button>
+                <img alt="Empty Profile Photo" class="w-16 h-16 rounded-full mx-auto" height="100" id="profile-photo" src="" width="100">
+                <p class="text-center mt-2" id="profile-name">Abhishek</p>
+                <table class="w-full mt-4 text-xs">
+                    <tbody>
+                        <tr>
+                            <td class="font-semibold">Username:</td>
+                            <td id="profile-username">Abhishek</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold">Phone:</td>
+                            <td id="profile-phone">9065856693</td>
+                        </tr>
+                        <tr>
+                            <td class="font-semibold">Address:</td>
+                            <td id="profile-address">pdp</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="px-4 py-2 bg-red-500 text-white rounded-md mt-4" onclick="logout()">Logout</button>
+            </div>
+        </div>
+        <span class="text-xl font-bold absolute left-1/2 transform -translate-x-1/2">Trendy Tides</span>
+        <button class="px-4 py-2 bg-black text-white rounded-md" id="login-btn" onclick="toggleLoginPopup()">Login</button>
+    </div>
+    
+    <!-- Search Bar -->
+  <!-- Search Bar -->
+    <div class="p-4" id="search-bar">
+        <div class="relative">
+            <i id="microphone-icon" class="fas fa-microphone absolute left-3 top-3 text-green-500 cursor-pointer"></i>
+            <div class="absolute left-8 top-3 h-6 border-r border-gray-300"></div>
+            <input class="w-full p-2 pl-12 border border-blue-500 rounded-full italic text-red-500 font-bold text-center" id="search-input" maxlength="15" placeholder="Shop for jewelry" type="text"/>
+            <i class="fas fa-search absolute right-3 top-3 text-green-500 font-bold"></i>
+            <div class="absolute w-full bg-white border rounded-lg mt-1 z-10 max-h-40 overflow-y-auto text-xs" id="suggestions-box"></div>
+        </div>
+    </div>
+
+    <!-- Voice Modal -->
+    <div id="voice-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center">
+            <i class="fas fa-microphone text-green-500 text-4xl mb-4"></i>
+            <p class="mb-4" id="status-message">Click "Start" to begin recording</p>
+            <button id="start-recording" class="bg-blue-500 text-white px-4 py-2 rounded-full">Start</button>
+        </div>
+    </div>
+    
+    <!-- Categories -->
+   <div class="flex justify-around p-4 border-b bg-white">
+        <button class="px-4 py-2 bg-red-500 text-white" onclick="showCategory('all')">All</button>
+        <button class="px-4 py-2 hover:text-red-500" onclick="showCategory('dress')">Dress</button>
+        <button class="px-4 py-2 hover:text-red-500" onclick="showCategory('pants')">Pant</button>
+        <button class="px-4 py-2 hover:text-red-500" onclick="showCategory('blazers')">Blazers</button>
+        <button class="px-4 py-2 hover:text-red-500" onclick="showCategory('jackets')">Jacket</button>
+    </div>
+    
+    <!-- Login Popup -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="login-popup">
+        <div class="bg-blue-500 p-3 rounded-t-md shadow-md relative animate-slide-up w-full max-w-xs mx-4 sm:mx-0">
+            <h2 class="text-2xl font-bold text-center text-red-500 mb-4">Trendy Tides</h2>
+            <button class="absolute top-2 right-2 text-xl text-white" onclick="toggleLoginPopup()">×</button>
+            <h2 class="text-xl font-semibold mb-4 text-white">Login</h2>
+            <div class="flex items-center mb-4">
+                <i class="fas fa-user text-white mr-2"></i>
+                <input class="w-full p-2 border rounded-md" id="username" placeholder="Enter Username" type="text"/>
+            </div>
+            <div class="flex items-center mb-4 relative">
+                <i class="fas fa-lock text-white mr-2"></i>
+                <input class="w-full p-2 border rounded-md" id="password" placeholder="Enter Password" type="password"/>
+                <i class="fas fa-eye text-white absolute right-3 cursor-pointer" id="password-icon" onclick="togglePasswordVisibility()"></i>
+            </div>
+            <div class="flex items-center mb-4">
+                <i class="fas fa-phone text-white mr-2"></i>
+                <input class="w-full p-2 border rounded-md" id="phone" placeholder="Enter Phone Number" type="tel"/>
+            </div>
+            <div class="flex items-center mb-4">
+                <i class="fas fa-map-marker-alt text-white mr-2"></i>
+                <input class="w-full p-2 border rounded-md" id="address" placeholder="Enter Address" type="text"/>
+            </div>
+            <div class="flex items-center mb-4">
+                <i class="fas fa-upload text-white mr-2"></i>
+                <input accept="image/*" class="w-full p-2 border rounded-md" id="profile-upload" type="file"/>
+            </div>
+            <button class="px-4 py-2 bg-black text-white rounded-md" onclick="login()">Submit</button>
+        </div>
+    </div>
+    
+        <div class="p-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="all">
+        <div class="space-y-2 cursor-pointer product-item dress" data-video="pranita1.mp4">
+            <div class="relative">
+                <div class="carousel">
+                    <img alt="Sequin Backles dress on a mannequin" class="item-photo" src="https://storage.googleapis.com/a1aa/image/JRt1-arjmOAWRnRnFoVOh7gUIJhCJ-SdFBeC4LtHbg8.jpg"/>
+                    <img alt="Sequin Backles dress close-up view" class="item-photo" src="https://placehold.co/150x200?text=Sequin+Backles+Close-up"/>
+                    <img alt="Sequin Backles dress back view" class="item-photo" src="https://placehold.co/150x200?text=Sequin+Backles+Back+View"/>
+                </div>
+                <div class="carousel-dots">
+                    <div class="carousel-dot active"></div>
+                    <div class="carousel-dot"></div>
+                    <div class="carousel-dot"></div>
+                </div>
+            </div>
+            <div class="text-sm product-name">Sequin Backles</div>
+            <div class="text-sm text-gray-500 product-price">$100.99 <span class="text-red-500">10% Off</span></div>
+            <div class="flex space-x-2">
+                <button class="flex-1 px-2 py-1 border rounded-lg text-xs add-to-cart">Add to Bag</button>
+                <button class="flex-1 px-2 py-1 bg-black text-white rounded-lg text-xs buy-now" data-image="https://storage.googleapis.com/a1aa/image/JRt1-arjmOAWRnRnFoVOh7gUIJhCJ-SdFBeC4LtHbg8.jpg" data-name="Sequin Backles" data-price="100.99">Buy Now</button>
+            </div>
+        </div>
+        <div class="space-y-2 cursor-pointer product-item dress" data-video="pranita2.mp4">
+            <div class="relative">
+                <div class="carousel">
+                    <img alt="Casual Beach dress on a hanger" class="item-photo" src="https://storage.googleapis.com/a1aa/image/xpdQXvr7JdhquEtGowr-sALc8mIP9GcJKXnIj0V3AKI.jpg"/>
+                    <img alt="Casual Beach dress close-up view" class="item-photo" src="https://placehold.co/150x200?text=Casual+Beach+Close-up"/>
+                    <img alt="Casual Beach dress back view" class="item-photo" src="https://placehold.co/150x200?text=Casual+Beach+Back+View"/>
+                </div>
+                <div class="carousel-dots">
+                    <div class="carousel-dot active"></div>
+                    <div class="carousel-dot"></div>
+                    <div class="carousel-dot"></div>
+                </div>
+            </div>
+            <div class="text-sm product-name">Casual Beach</div>
+            <div class="text-sm text-gray-500 product-price">$120.99</div>
+            <div class="flex space-x-2">
+                <button class="flex-1 px-2 py-1 border rounded-lg text-xs add-to-cart">Add to Bag</button>
+                <button class="flex-1 px-2 py-1 bg-black text-white rounded-lg text-xs buy-now" data-image="https://storage.googleapis.com/a1aa/image/xpdQXvr7JdhquEtGowr-sALc8mIP9GcJKXnIj0V3AKI.jpg" data-name="Casual Beach" data-price="120.99">Buy Now</button>
+            </div>
+        </div>
+        <!-- Add more items like this -->
+    </div>
+
+
+   <div class="p-4 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="all">
+    <div class="space-y-2 cursor-pointer product-item dress" data-video="pranita1.mp4">
+      <div class="relative">
+        <div class="carousel">
+          <img alt="Sequin Backles dress on a mannequin" class="item-photo" src="https://storage.googleapis.com/a1aa/image/JRt1-arjmOAWRnRnFoVOh7gUIJhCJ-SdFBeC4LtHbg8.jpg"/>
+          <img alt="Sequin Backles dress close-up view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/MY7i6MTMYpAFN3zmvqR1Y1JXHMKthvbwmnH8QBGUo28.jpg" width="150"/>
+          <img alt="Sequin Backles dress back view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/zPhvQZ3NBZyxK9SHNPj7azFkTp_dWrsI2x9WGuI1CN4.jpg" width="150"/>
+        </div>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+      <div class="text-sm product-name">Sequin Backles</div>
+      <div class="text-sm text-gray-500 product-price">$100.99 <span class="text-red-500">10% Off</span></div>
+      <div class="flex space-x-2">
+        <button class="flex-1 px-2 py-1 border rounded-lg text-xs add-to-cart">Add to Bag</button>
+        <button class="flex-1 px-2 py-1 bg-black text-white rounded-lg text-xs buy-now" data-image="https://storage.googleapis.com/a1aa/image/JRt1-arjmOAWRnRnFoVOh7gUIJhCJ-SdFBeC4LtHbg8.jpg" data-name="Sequin Backles" data-price="100.99">Buy Now</button>
+      </div>
+    </div>
+
+
+
+    <div class="space-y-2 cursor-pointer product-item dress" data-video="pranita2.mp4">
+      <div class="relative">
+        <div class="carousel">
+          <img alt="Casual Beach dress on a hanger" class="item-photo" src="https://storage.googleapis.com/a1aa/image/xpdQXvr7JdhquEtGowr-sALc8mIP9GcJKXnIj0V3AKI.jpg"/>
+          <img alt="Casual Beach dress close-up view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/vqTOoR_oNmDFMiyzfBGvCqEI8pWwiTV9WrLGys1seCA.jpg" width="150"/>
+          <img alt="Casual Beach dress back view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/A8Qw6OIDD4OayKZy-1xGtIUDnakILt0FDFLGKgghsQQ.jpg" width="150"/>
+        </div>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+      <div class="text-sm product-name">Casual Beach</div>
+      <div class="text-sm text-gray-500 product-price">$120.99</div>
+      <div class="flex space-x-2">
+        <button class="flex-1 px-2 py-1 border rounded-lg text-xs add-to-cart">Add to Bag</button>
+        <button class="flex-1 px-2 py-1 bg-black text-white rounded-lg text-xs buy-now" data-image="https://storage.googleapis.com/a1aa/image/xpdQXvr7JdhquEtGowr-sALc8mIP9GcJKXnIj0V3AKI.jpg" data-name="Casual Beach" data-price="120.99">Buy Now</button>
+      </div>
+    </div>
+
+
+
+    <div class="space-y-2 cursor-pointer product-item pants" data-video="pranita3.mp4">
+      <div class="relative">
+        <div class="carousel">
+          <img alt="Formal Pants on a hanger" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/lPHNhxJtgNBi-qdDhIDOW26q9H4ZrTB08qUoaMlTNOg.jpg" width="150"/>
+          <img alt="Formal Pants close-up view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/_lh-FJ3EUv3CBH7xgJCHuixbg0OaOAFkG_lf8ouqCLg.jpg" width="150"/>
+          <img alt="Formal Pants back view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/_omkR5CxNbdnpPJlqPY2yAHegnQSkNLiBDGB_7UQR0g.jpg" width="150"/>
+        </div>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+      <div class="text-sm product-name">Formal Pants</div>
+      <div class="text-sm text-gray-500 product-price">$80.99</div>
+      <div class="flex space-x-2">
+        <button class="flex-1 px-2 py-1 border rounded-lg text-xs add-to-cart">Add to Bag</button>
+        <button class="flex-1 px-2 py-1 bg-black text-white rounded-lg text-xs buy-now" data-image="https://storage.googleapis.com/a1aa/image/lPHNhxJtgNBi-qdDhIDOW26q9H4ZrTB08qUoaMlTNOg" data-name="Formal Pants" data-price="80.99">Buy Now</button>
+      </div>
+    </div>
+
+
+
+    <div class="space-y-2 cursor-pointer product-item jackets" data-video="pranita4.mp4">
+      <div class="relative">
+        <div class="carousel">
+          <img alt="Leather Jacket on a mannequin" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/zdON9dUK6sqWZDCgeRqv5qi-t2JBuJvx9UxLW9Lp9m0.jpg" width="150"/>
+          <img alt="Leather Jacket close-up view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/bv1gVL6uV_nHlcGpwhLqJ0mutoO3n7b-nXKGqCRjD8M.jpg" width="150"/>
+          <img alt="Leather Jacket back view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/d6N-mHwCi1RdWOIKmAf7mcvDyj8m-0QArBPpuAb-kxE.jpg" width="150"/>
+        </div>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+      <div class="text-sm product-name">Leather Jacket</div>
+      <div class="text-sm text-gray-500 product-price">$150.99</div>
+      <div class="flex space-x-2">
+        <button class="flex-1 px-2 py-1 border rounded-lg text-xs add-to-cart">Add to Bag</button>
+        <button class="flex-1 px-2 py-1 bg-black text-white rounded-lg text-xs buy-now" data-image="https://placehold.co/150x200?text=Leather+Jacket" data-name="Leather Jacket" data-price="150.99">Buy Now</button>
+      </div>
+    </div>
+    <div class="space-y-2 cursor-pointer product-item blazers" data-video="pranita5.mp4">
+      <div class="relative">
+        <div class="carousel">
+          <img alt="Formal Blazer on a mannequin" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/URHD32H71Cy7jd1ixiLKt6zK8_j6EcINEn9iXVDa1-M.jpg" width="150"/>
+          <img alt="Formal Blazer close-up view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/_U70jaywc-olLcjEe0XdEYBSCAj2A_2ueAjDsw48xBk.jpg" width="150"/>
+          <img alt="Formal Blazer back view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/LHeL1SgQMcM4tQhxZDw6IUVRA8_f5WuFiGVF6TCsgP8.jpg" width="150"/>
+        </div>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+      <div class="text-sm product-name">Formal Blazer</div>
+      <div class="text-sm text-gray-500 product-price">$130.99</div>
+      <div class="flex space-x-2">
+        <button class="flex-1 px-2 py-1 border rounded-lg text-xs add-to-cart">Add to Bag</button>
+        <button class="flex-1 px-2 py-1 bg-black text-white rounded-lg text-xs buy-now" data-image="https://placehold.co/150x200?text=Formal+Blazer" data-name="Formal Blazer" data-price="130.99">Buy Now</button>
+      </div>
+    </div>
+    <div class="space-y-2 cursor-pointer product-item dress" data-video="pranita6.mp4">
+      <div class="relative">
+        <div class="carousel">
+          <img alt="Summer Dress on a hanger" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/aiVLcAYQOabLI42uGlj-G0wdrsmQ6IxdPo2UwzKa2HM.jpg" width="150"/>
+          <img alt="Summer Dress close-up view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/GU-b30_czuZ7ZvFfJtOCNiGbqLyFSXkNTqmXruaFGio.jpg" width="150"/>
+          <img alt="Summer Dress back view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/1v1sj1QPyid9hTraHp-xH8WYSPyyULCLnQHig5r8yxE.jpg" width="150"/>
+        </div>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+      <div class="text-sm product-name">Summer Dress</div>
+      <div class="text-sm text-gray-500 product-price">$90.99</div>
+      <div class="flex space-x-2">
+        <button class="flex-1 px-2 py-1 border rounded-lg text-xs add-to-cart">Add to Bag</button>
+        <button class="flex-1 px-2 py-1 bg-black text-white rounded-lg text-xs buy-now" data-image="https://placehold.co/150x200?text=Summer+Dress" data-name="Summer Dress" data-price="90.99">Buy Now</button>
+      </div>
+    </div>
+    <div class="space-y-2 cursor-pointer product-item pants" data-video="pranita7.mp4">
+      <div class="relative">
+        <div class="carousel">
+          <img alt="Casual Pants on a hanger" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/L8Xdc2OZbNY8QMSCvZdrv99GereFYu5qAjYS3ueN0MM.jpg" width="150"/>
+          <img alt="Casual Pants close-up view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/pve6rvCObbPA-KMHHRrMONyQKa2lH6x8bpjt2atbSZs.jpg" width="150"/>
+          <img alt="Casual Pants back view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/dN5t1ESLZ7xCToBSa5LgRUvnmAOS5fIQ5j4MOZdpfbY.jpg" width="150"/>
+        </div>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+      <div class="text-sm product-name">Casual Pants</div>
+      <div class="text-sm text-gray-500 product-price">$70.99</div>
+      <div class="flex space-x-2">
+        <button class="flex-1 px-2 py-1 border rounded-lg text-xs add-to-cart">Add to Bag</button>
+        <button class="flex-1 px-2 py-1 bg-black text-white rounded-lg text-xs buy-now" data-image="https://placehold.co/150x200?text=Casual+Pants" data-name="Casual Pants" data-price="70.99">Buy Now</button>
+      </div>
+    </div>
+    <div class="space-y-2 cursor-pointer product-item jackets" data-video="pranita8.mp4">
+      <div class="relative">
+        <div class="carousel">
+          <img alt="Denim Jacket on a mannequin" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/ngSy2UwvN-pF2CkBsISH1P9bQGEIhCNjbcAolfRRnII.jpg" width="150"/>
+          <img alt="Denim Jacket close-up view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/U2B4BHfVM9J7Mywy9kFVjt5pYlliIVFrGzW8oezeztU.jpg" width="150"/>
+          <img alt="Denim Jacket back view" class="item-photo" height="200" src="https://storage.googleapis.com/a1aa/image/ybUfQbVwrhpRoirvO4kg5cC2jAU5vVzutJMZbA1cT0c.jpg" width="150"/>
+        </div>
+        <div class="carousel-dots">
+          <div class="carousel-dot active"></div>
+          <div class="carousel-dot"></div>
+          <div class="carousel-dot"></div>
+        </div>
+      </div>
+      <div class="text-sm product-name">Denim Jacket</div>
+      <div class="text-sm text-gray-500 product-price">$110.99</div>
+      <div class="flex space-x-2">
+        <button class="flex-1 px-2 py-1 border rounded-lg text-xs add-to-cart">Add to Bag</button>
+        <button class="flex-1 px-2 py-1 bg-black text-white rounded-lg text-xs buy-now" data-image="https://placehold.co/150x200?text=Denim+Jacket" data-name="Denim Jacket" data-price="110.99">Buy Now</button>
+      </div>
+    </div>
+
+
+    <div class="video-popup" id="video-popup">
+        <div class="relative bg-white rounded-lg shadow-lg p-4 w-11/12 sm:w-3/4 md:w-1/2 lg:w-1/3 xl:w-1/4">
+            <button class="absolute top-2 right-2 text-red-500" id="close-popup">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+            <video id="popup-video" class="w-full h-auto rounded-lg" controls autoplay>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <!-- Cart Icon -->
+    <div class="fixed bottom-4 left-4 bg-green-500 text-white rounded-full w-16 h-16 flex items-center justify-center cursor-pointer" id="cart-icon">
+        <i class="fas fa-shopping-cart text-2xl"></i>
+    </div>
+
+    <!-- Cart Popup -->
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-end justify-center hidden" id="cart-popup">
+        <div class="bg-white p-6 rounded-t-md shadow-md relative w-full max-w-md">
+            <button class="absolute top-2 right-2 text-2xl text-red-500" onclick="toggleCartPopup()">×</button>
+            <h2 class="text-xl font-semibold mb-4 text-center text-red-500 font-bold">Trendy Tides</h2>
+            <div id="cart-items" class="space-y-4 max-h-60 overflow-y-auto">
+                <div class="flex items-center space-x-4">
+                    <img src="https://storage.googleapis.com/a1aa/image/JRt1-arjmOAWRnRnFoVOh7gUIJhCJ-SdFBeC4LtHbg8.jpg" alt="Sequin Backles dress on a mannequin" class="w-16 h-16 object-cover rounded-lg">
+                    <div class="flex-1">
+                        <div class="text-sm font-semibold">Sequin Backles</div>
+                        <div class="text-sm text-gray-500">$100.99 10% Off</div>
+                    </div>
+                    <button class="px-2 py-1 bg-black text-white rounded-lg text-xs">Buy Now</button>
+                    <button class="text-red-500 text-2xl remove-item" data-index="0">×</button>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <img src="https://storage.googleapis.com/a1aa/image/xpdQXvr7JdhquEtGowr-sALc8mIP9GcJKXnIj0V3AKI.jpg" alt="Casual Beach dress on a hanger" class="w-16 h-16 object-cover rounded-lg">
+                    <div class="flex-1">
+                        <div class="text-sm font-semibold">Casual Beach</div>
+                        <div class="text-sm text-gray-500">$120.99</div>
+                    </div>
+                    <button class="px-2 py-1 bg-black text-white rounded-lg text-xs">Buy Now</button>
+                    <button class="text-red-500 text-2xl remove-item" data-index="1">×</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Message -->
+    <div id="toast" class="fixed top-4 left-4 bg-blue-500 text-white px-4 py-2 rounded-md shadow-md flex items-center space-x-2 hidden">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message"></span>
+    </div>
+
+
+
+
+
+
+
+
+
+
+   <!-- Buy Now Modal -->
+    <div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden" id="buyNowModal">
+        <div class="bg-white rounded-lg p-2 w-full max-w-xs relative">
+            <button class="absolute top-2 right-2 text-white bg-red-500 hover:bg-red-700 rounded-full p-1" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="flex flex-col md:flex-row">
+                <div class="md:w-1/3">
+                    <img alt="Selected product image" class="w-full h-20 object-cover rounded-lg" id="modalImage"/>
+                    <div class="text-sm text-gray-500 mt-2 flex items-center">
+                        Price: $<span id="modalPrice" data-base-price="100.99"></span>
+                        <span class="text-green-500 ml-2">Free Delivery</span>
+                    </div>
+                    <div class="flex items-center mt-2">
+                        <button class="px-2 py-1 border rounded-lg text-xs" id="decrementQuantity">-</button>
+                        <input class="mx-2 w-10 text-center border rounded-lg" id="quantity" readonly type="text" value="1"/>
+                        <button class="px-2 py-1 border rounded-lg text-xs" id="incrementQuantity">+</button>
+                    </div>
+                </div>
+                <div class="md:w-2/3 md:pl-2 mt-4 md:mt-0">
+                    <form id="buyNowForm">
+                        <div class="mb-1">
+                            <label class="block text-sm font-medium text-gray-700" for="name">Name</label>
+                            <input class="mt-1 block w-full border rounded-lg p-1" id="name" name="name" required type="text"/>
+                        </div>
+                        <div class="mb-1">
+                            <label class="block text-sm font-medium text-gray-700" for="address">Address with Code</label>
+                            <input class="mt-1 block w-full border rounded-lg p-1" id="address" name="address" required type="text"/>
+                        </div>
+                        <div class="mb-1">
+                            <label class="block text-sm font-medium text-gray-700" for="city">City</label>
+                            <div class="grid grid-cols-2 gap-1">
+                                <select class="mt-1 block w-full border rounded-lg p-1" id="city" name="city" required>
+                                    <option value="damak">Damak</option>
+                                    <option value="dharan">Dharan</option>
+                                    <option value="illam">Illam</option>
+                                </select>
+                                <input class="mt-1 block w-full border rounded-lg p-1 text-xs text-red-500" id="promoCode" name="promoCode" type="text" placeholder="Promo Code (Optional)"/>
+                            </div>
+                        </div>
+                        <div class="mb-1">
+                            <label class="block text-sm font-medium text-gray-700" for="phone">Phone</label>
+                            <input class="mt-1 block w-full border rounded-lg p-1" id="phone" name="phone" required type="text"/>
+                        </div>
+                        <div class="mb-1">
+                            <label class="block text-sm font-medium text-gray-700" for="payment">Payment Option</label>
+                            <select class="mt-1 block w-full border rounded-lg p-1" id="payment" name="payment" required>
+                                <option value="esewa">eSewa</option>
+                                <option value="ime">IME</option>
+                                <option value="khalti">Khalti</option>
+                            </select>
+                        </div>
+                        <div class="mb-1">
+                            <label class="block text-sm font-medium text-gray-700" for="upload">Upload Photo</label>
+                            <input class="mt-1 block w-full border rounded-lg p-1" id="upload" name="upload" required type="file"/>
+                        </div>
+                        <button class="w-full bg-black text-white rounded-lg p-2" type="submit">Buy</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Modal -->
+    <div class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden" id="qrModal">
+        <div class="bg-white rounded-lg p-2 w-full max-w-xs relative">
+            <button class="absolute top-2 right-2 text-white bg-red-500 hover:bg-red-700 rounded-full p-1" id="closeQrModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="text-center">
+                <img alt="QR code for payment" class="w-32 h-32 mx-auto" src="https://placehold.co/200x200?text=QR+Code"/>
+                <div class="text-red-500 mt-2">Scan QR, pay and take a screenshot and send.</div>
+            </div>
+        </div>
+    </div>
+
+      <div id="custom-notification" class="hidden fixed bottom-4 right-4 bg-blue-500 text-white p-4 rounded-lg shadow-lg flex items-center space-x-4">
+        <i class="fas fa-info-circle"></i>
+        <span>@ यो अभिषेक राजवंशी द्वारा विकास गरिएको हो !🇳🇵❤️!Welcome to Trendy_Tides </span>
+    </div>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+  <script>
+function showCategory(category) {
+    const categories = ['all', 'dress', 'pants', 'blazers', 'jackets'];
+    const items = document.querySelectorAll('.product-item');
+
+    items.forEach(item => {
+        item.classList.toggle('hidden', category !== 'all' && !item.classList.contains(category));
+    });
+
+    categories.forEach(cat => {
+        const button = document.querySelector(`button[data-category="${cat}"]`);
+        if (button) {
+            button.classList.toggle('active', cat === category);
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+  function toggleProfilePopup() {
+            const profilePopup = document.getElementById('profile-popup');
+            const searchBar = document.getElementById('search-bar');
+            const categories = document.querySelector('.flex.justify-around.p-4.border-b');
+            profilePopup.classList.toggle('hidden');
+            searchBar.classList.toggle('hidden');
+            categories.classList.toggle('hidden');
+            if (!profilePopup.classList.contains('hidden')) {
+                setTimeout(() => {
+                    profilePopup.classList.add('hidden');
+                    searchBar.classList.remove('hidden');
+                    categories.classList.remove('hidden');
+                }, 3000);
+            }
+        }
+
+        function toggleLoginPopup() {
+            const loginPopup = document.getElementById('login-popup');
+            const searchBar = document.getElementById('search-bar');
+            const categories = document.querySelector('.flex.justify-around.p-4.border-b');
+            loginPopup.classList.toggle('hidden');
+            searchBar.classList.toggle('hidden');
+            categories.classList.toggle('hidden');
+        }
+
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-4 right-4 p-4 rounded-md shadow-md flex items-center space-x-2 ${type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500'} text-white`;
+            toast.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-times-circle' : 'fa-info-circle'}"></i>
+                <span>${message}</span>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const profileUpload = document.getElementById('profile-upload').files[0];
+
+            if (username && password && phone && address && profileUpload) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const profilePhoto = e.target.result;
+
+                    document.getElementById('profile-name').innerText = username;
+                    document.getElementById('profile-photo').src = profilePhoto;
+                    document.getElementById('profile-icon').src = profilePhoto;
+
+                    document.getElementById('profile-username').innerText = username;
+                    document.getElementById('profile-phone').innerText = phone;
+                    document.getElementById('profile-address').innerText = address;
+
+                    document.getElementById('login-popup').classList.add('hidden');
+                    document.getElementById('login-btn').classList.add('hidden');
+
+                    const loginData = {
+                        username,
+                        phone,
+                        address,
+                        profilePhoto,
+                        timestamp: new Date().getTime()
+                    };
+                    localStorage.setItem('loginData', JSON.stringify(loginData));
+
+                    showToast('Login successful!', 'success');
+                };
+                reader.readAsDataURL(profileUpload);
+            } else {
+                showToast('All fields are required!', 'error');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('loginData');
+            document.getElementById('profile-name').innerText = '';
+            document.getElementById('profile-photo').src = '';
+            document.getElementById('profile-icon').src = 'https://placehold.co/50x50?text=Profile+Icon';
+            document.getElementById('profile-username').innerText = '';
+            document.getElementById('profile-phone').innerText = '';
+            document.getElementById('profile-address').innerText = '';
+            document.getElementById('login-btn').classList.remove('hidden');
+            document.getElementById('profile-popup').classList.add('hidden');
+            showToast('Logged out successfully!', 'success');
+        }
+
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById('password');
+            const passwordIcon = document.getElementById('password-icon');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                passwordIcon.classList.remove('fa-eye');
+                passwordIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                passwordIcon.classList.remove('fa-eye-slash');
+                passwordIcon.classList.add('fa-eye');
+            }
+        }
+
+        function checkLoginStatus() {
+            const loginData = JSON.parse(localStorage.getItem('loginData'));
+            if (loginData) {
+                const currentTime = new Date().getTime();
+                const sixtyDays = 60 * 24 * 60 * 60 * 1000;
+                if (currentTime - loginData.timestamp < sixtyDays) {
+                    document.getElementById('profile-name').innerText = loginData.username;
+                    document.getElementById('profile-photo').src = loginData.profilePhoto;
+                    document.getElementById('profile-icon').src = loginData.profilePhoto;
+
+                    document.getElementById('profile-username').innerText = loginData.username;
+                    document.getElementById('profile-phone').innerText = loginData.phone;
+                    document.getElementById('profile-address').innerText = loginData.address;
+
+                    document.getElementById('login-btn').classList.add('hidden');
+                    document.getElementById('profile-popup').classList.add('hidden');
+                } else {
+                    localStorage.removeItem('loginData');
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', checkLoginStatus);
+  
+
+
+
+ document.addEventListener('DOMContentLoaded', function() {
+            const cartIcon = document.getElementById('cart-icon');
+            const cartPopup = document.getElementById('cart-popup');
+            const cartItemsContainer = document.getElementById('cart-items');
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+
+            // Load cart items from local storage
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+            // Function to save cart items to local storage
+            function saveCartItems() {
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            }
+
+            // Function to render cart items
+            function renderCartItems() {
+                cartItemsContainer.innerHTML = '';
+                cartItems.forEach((item, index) => {
+                    const cartItem = document.createElement('div');
+                    cartItem.classList.add('flex', 'items-center', 'space-x-4');
+                    cartItem.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 object-cover rounded-lg">
+                        <div class="flex-1">
+                            <div class="text-sm font-semibold">${item.name}</div>
+                            <div class="text-sm text-gray-500">${item.price}</div>
+                        </div>
+                        <button class="px-2 py-1 bg-black text-white rounded-lg text-xs">Buy Now</button>
+                        <button class="text-red-500 text-2xl remove-item" data-index="${index}">×</button>
+                    `;
+                    cartItemsContainer.appendChild(cartItem);
+                });
+
+                // Add event listeners to remove buttons
+                document.querySelectorAll('.remove-item').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const index = this.getAttribute('data-index');
+                        cartItems.splice(index, 1);
+                        saveCartItems();
+                        renderCartItems();
+                        showToast('Removed from cart');
+                    });
+                });
+            }
+
+            // Function to show toast message
+            function showToast(message) {
+                toastMessage.textContent = message;
+                toast.classList.remove('hidden');
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 3000);
+            }
+
+            // Add event listeners to "Add to Bag" buttons
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (cartItems.length >= 10) {
+                        showToast('Cart is full');
+                        return;
+                    }
+
+                    const product = button.closest('.space-y-2');
+                    const image = product.querySelector('img').src;
+                    const name = product.querySelector('.text-sm').textContent;
+                    const price = product.querySelector('.text-gray-500').textContent;
+
+                    const cartItem = { image, name, price };
+                    cartItems.push(cartItem);
+                    saveCartItems();
+                    renderCartItems();
+                    showToast('Added to cart');
+                });
+            });
+
+            // Show cart popup
+            cartIcon.addEventListener('click', function() {
+                if (cartItems.length === 0) {
+                    showToast('Add an item first');
+                    return;
+                }
+                cartPopup.classList.remove('hidden');
+                renderCartItems();
+            });
+
+            // Hide cart popup
+            cartPopup.addEventListener('click', function(event) {
+                if (event.target === cartPopup || event.target.closest('button')) {
+                    cartPopup.classList.add('hidden');
+                }
+            });
+
+            // Set local storage expiration
+            const expirationDays = 15;
+            const now = new Date();
+            const expirationDate = new Date(localStorage.getItem('cartExpirationDate'));
+
+            if (!expirationDate || now > expirationDate) {
+                localStorage.removeItem('cartItems');
+                localStorage.setItem('cartExpirationDate', new Date(now.getTime() + expirationDays * 24 * 60 * 60 * 1000));
+            }
+        });
+
+
+
+
+
+
+    document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const suggestionsBox = document.getElementById('suggestions-box');
+            const searchTerms = [
+                'Shop for clothes', 
+                'Shop for sari', 
+                'Shop for lehanga',
+                'Shop for shoes',
+                'Shop for accessories',
+                'Shop for bags',
+                'Shop for jewelry',
+                'Shop for watches',
+                'Shop for sunglasses',
+                'Shop for hats',
+                'Shop for belts',
+                'Shop for scarves',
+                'Shop for gloves'
+            ];
+            let termIndex = 0;
+
+            function cycleSearchTerms() {
+                searchInput.placeholder = searchTerms[termIndex];
+                termIndex = (termIndex + 1) % searchTerms.length;
+                setTimeout(() => {
+                    searchInput.placeholder = '';
+                    setTimeout(cycleSearchTerms, termIndex === 1 ? 2000 : 3000);
+                }, 2000);
+            }
+
+            function searchItems() {
+                const query = document.getElementById('search-input').value.toLowerCase().trim();
+                const items = document.querySelectorAll('.product-item');
+                let found = false;
+
+                items.forEach(item => {
+                    const itemName = item.querySelector('.text-sm')?.innerText.toLowerCase() || '';
+                    const match = itemName.includes(query) || itemName.includes(query.slice(0, -1)) || itemName.includes(query + 's');
+                    item.classList.toggle('hidden', !match);
+                    if (match) found = true;
+                });
+
+                if (!found && query) {
+                    showToast('Not Found');
+                } else {
+                    suggestionsBox.innerHTML = '';
+                }
+
+                // Show suggestions
+                const filteredTerms = searchTerms.filter(term => term.toLowerCase().includes(query));
+                if (query && filteredTerms.length > 0 && !found) {
+                    filteredTerms.forEach(term => {
+                        const suggestionItem = document.createElement('div');
+                        suggestionItem.className = 'p-2 cursor-pointer hover:bg-gray-200 text-sm';
+                        suggestionItem.textContent = term;
+                        suggestionItem.onclick = () => {
+                            searchInput.value = term;
+                            suggestionsBox.innerHTML = '';
+                            searchItems();
+                        };
+                        suggestionsBox.appendChild(suggestionItem);
+                    });
+                }
+            }
+
+            function showToast(message) {
+                const toast = document.createElement('div');
+                toast.className = 'fixed bottom-4 right-4 bg-red-500 text-white p-2 rounded';
+                toast.innerText = message;
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            }
+
+            searchInput.addEventListener('input', searchItems);
+            searchInput.addEventListener('input', function() {
+                if (searchInput.value.length > 15) {
+                    searchInput.value = searchInput.value.slice(0, 15);
+                }
+            });
+
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.relative')) {
+                    suggestionsBox.innerHTML = '';
+                }
+            });
+
+            cycleSearchTerms();
+        });
+
+
+
+
+
+
+
+  document.querySelectorAll('.buy-now').forEach(button => {
+            button.addEventListener('click', function() {
+                const name = this.getAttribute('data-name');
+                const price = this.getAttribute('data-price');
+                const image = this.getAttribute('data-image');
+                document.getElementById('modalImage').src = image;
+                document.getElementById('modalPrice').innerText = price;
+                document.getElementById('modalPrice').setAttribute('data-base-price', price);
+                document.getElementById('quantity').value = 1;
+                document.getElementById('buyNowModal').classList.remove('hidden');
+            });
+        });
+
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('buyNowModal').classList.add('hidden');
+        });
+
+        document.getElementById('incrementQuantity').addEventListener('click', function() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value);
+            if (quantity < 4) {
+                quantity++;
+                quantityInput.value = quantity;
+                updatePrice();
+            }
+        });
+
+        document.getElementById('decrementQuantity').addEventListener('click', function() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value);
+            if (quantity > 1) {
+                quantity--;
+                quantityInput.value = quantity;
+                updatePrice();
+            }
+        });
+
+        function updatePrice() {
+            const basePrice = parseFloat(document.getElementById('modalPrice').getAttribute('data-base-price'));
+            const quantity = parseInt(document.getElementById('quantity').value);
+            const discount = (quantity - 1) * 0.10;
+            const promoCode = document.getElementById('promoCode').value.trim().toLowerCase();
+            let totalPrice = basePrice * (1 - discount) * quantity;
+            if (promoCode === 'abhi' || promoCode === 'pra' || promoCode === 'love') {
+                totalPrice *= 0.95; // Apply additional 5% discount for specific promo codes
+            }
+            document.getElementById('modalPrice').innerText = totalPrice.toFixed(2);
+        }
+
+        document.getElementById('payment').addEventListener('change', function() {
+            document.getElementById('qrModal').classList.remove('hidden');
+        });
+
+        document.getElementById('closeQrModal').addEventListener('click', function() {
+            document.getElementById('qrModal').classList.add('hidden');
+        });
+
+        document.getElementById('buyNowForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const city = document.getElementById('city').value;
+            const phone = document.getElementById('phone').value;
+            const payment = document.getElementById('payment').value;
+            const price = document.getElementById('modalPrice').innerText;
+            const itemName = document.querySelector('.buy-now[data-name]').getAttribute('data-name');
+            const image = document.getElementById('modalImage').src;
+
+            const receipt = {
+                itemName,
+                price,
+                name,
+                city,
+                phone,
+                payment,
+                image,
+                timestamp: new Date().getTime()
+            };
+
+            localStorage.setItem(itemName, JSON.stringify(receipt));
+
+            document.getElementById('buyNowModal').classList.add('hidden');
+            showSweetAlert();
+
+            // Clear form fields
+            document.getElementById('name').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('city').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('payment').value = '';
+            document.getElementById('upload').value = '';
+            document.getElementById('promoCode').value = '';
+        });
+
+        function showSweetAlert() {
+            Swal.fire({
+                title: '<strong style="color: red; font-weight: bold;">Trendy_Tides</strong>',
+                icon: 'success',
+                text: 'Order placed successfully! We will notify you soon.',
+                timer: 3000,
+                showConfirmButton: false,
+                position: 'top'
+            });
+        }
+
+        document.querySelectorAll('.carousel-dot').forEach((dot, index) => {
+            dot.addEventListener('click', function() {
+                const carousel = this.closest('.relative').querySelector('.carousel');
+                carousel.scrollTo({
+                    left: carousel.offsetWidth * index,
+                    behavior: 'smooth'
+                });
+                this.closest('.carousel-dots').querySelectorAll('.carousel-dot').forEach(d => d.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        document.querySelectorAll('.carousel').forEach(carousel => {
+            carousel.addEventListener('scroll', function() {
+                const dots = this.closest('.relative').querySelectorAll('.carousel-dot');
+                const index = Math.round(this.scrollLeft / this.offsetWidth);
+                dots.forEach(d => d.classList.remove('active'));
+                dots[index].classList.add('active');
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+     function showNotification(message) {
+            console.log("Attempting to show notification...");
+
+            // Check if the browser supports notifications
+            if ("Notification" in window) {
+                console.log("Notification API supported");
+
+                // Check if the user has already granted permission for notifications
+                if (Notification.permission === "granted") {
+                    console.log("Permission granted, showing notification");
+                    // Show native notification (no styling for background or text)
+                    new Notification(message);
+
+                    // Show custom notification on the page
+                    const notification = document.getElementById("custom-notification");
+                    notification.querySelector('span').textContent = message;
+                    notification.style.display = "block";
+
+                    // Hide custom notification after 5 seconds
+                    setTimeout(() => {
+                        notification.style.display = "none";
+                    }, 5000);
+
+                    // Save the current time in local storage
+                    localStorage.setItem('lastNotificationTime', Date.now());
+                } else if (Notification.permission === "default") {
+                    console.log("Requesting permission...");
+                    // Ask for permission to show notifications
+                    Notification.requestPermission().then(permission => {
+                        if (permission === "granted") {
+                            console.log("Permission granted after request");
+                            new Notification(message);
+
+                            // Show custom notification on the page
+                            const notification = document.getElementById("custom-notification");
+                            notification.querySelector('span').textContent = message;
+                            notification.style.display = "block";
+
+                            // Hide custom notification after 5 seconds
+                            setTimeout(() => {
+                                notification.style.display = "none";
+                            }, 5000);
+
+                            // Save the current time in local storage
+                            localStorage.setItem('lastNotificationTime', Date.now());
+                        } else {
+                            console.log("Permission denied after request");
+                        }
+                    });
+                } else {
+                    console.log("Permission denied permanently");
+                }
+            } else {
+                console.log("Your browser does not support notifications.");
+                alert("Your browser does not support notifications.");
+            }
+        }
+
+        // Check if 5 days have passed since the last notification
+        function checkNotificationTime() {
+            const lastNotificationTime = localStorage.getItem('lastNotificationTime');
+            const currentTime = Date.now();
+            const fiveDaysInMilliseconds = 5 * 24 * 60 * 60 * 1000;
+
+            if (!lastNotificationTime || (currentTime - lastNotificationTime) > fiveDaysInMilliseconds) {
+                showNotification("@ यो अभिषेक राजवंशी द्वारा विकास गरिएको हो !🇳🇵❤️!Welcome to Trendy_Tides");
+            }
+        }
+
+        // Show daily morning notification
+        function showDailyMorningNotification() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+
+            // Check if it's morning (e.g., 7:00 AM)
+            if (hours === 7 && minutes === 0) {
+                showNotification("Good Morning!");
+            }
+        }
+
+        // Show notification after 5 seconds if 5 days have passed
+        window.onload = () => {
+            console.log("Page loaded, waiting for 5 seconds...");
+            setTimeout(checkNotificationTime, 5000); // 5000 milliseconds = 5 seconds
+
+            // Check every minute for the daily morning notification
+            setInterval(showDailyMorningNotification, 60000); // 60000 milliseconds = 1 minute
+        };
+
+
+
+
+
+
+      document.querySelectorAll('.item-photo').forEach(item => {
+            item.addEventListener('click', function() {
+                const videoSrc = this.closest('.product-item').getAttribute('data-video');
+                const videoPopup = document.getElementById('video-popup');
+                const popupVideo = document.getElementById('popup-video');
+                popupVideo.src = videoSrc;
+                videoPopup.classList.add('active');
+                popupVideo.play();
+            });
+        });
+
+        document.getElementById('close-popup').addEventListener('click', function() {
+            const videoPopup = document.getElementById('video-popup');
+            const popupVideo = document.getElementById('popup-video');
+            popupVideo.pause();
+            popupVideo.currentTime = 0;
+            videoPopup.classList.remove('active');
+        });
+
+
+
+
+
+
+
+       document.addEventListener('DOMContentLoaded', function() {
+            const microphoneIcon = document.getElementById('microphone-icon');
+            const voiceModal = document.getElementById('voice-modal');
+            const startButton = document.getElementById('start-recording');
+            const statusMessage = document.getElementById('status-message');
+            let recognition;
+
+            microphoneIcon.addEventListener('click', function() {
+                voiceModal.classList.remove('hidden');
+                setTimeout(() => {
+                    startButton.classList.add('hidden');
+                    startRecording();
+                }, 2000);
+            });
+
+            function startRecording() {
+                if (!('webkitSpeechRecognition' in window)) {
+                    alert('Your browser does not support speech recognition. Please use Google Chrome.');
+                } else {
+                    recognition = new webkitSpeechRecognition();
+                    recognition.continuous = false;
+                    recognition.interimResults = false;
+                    recognition.lang = 'en-US';
+
+                    recognition.onstart = function() {
+                        statusMessage.textContent = 'Listening...';
+                    };
+
+                    recognition.onspeechend = function() {
+                        recognition.stop();
+                    };
+
+                    recognition.onresult = function(event) {
+                        const transcript = event.results[0][0].transcript;
+                        document.getElementById('search-input').value = transcript;
+                        statusMessage.textContent = 'Recognized: ' + transcript;
+                        setTimeout(() => {
+                            voiceModal.classList.add('hidden');
+                        }, 2000);
+                    };
+
+                    recognition.onerror = function(event) {
+                        if (event.error === 'no-speech') {
+                            statusMessage.textContent = 'No sound detected. Please try again.';
+                        }
+                    };
+
+                    recognition.start();
+
+                    setTimeout(() => {
+                        recognition.stop();
+                        if (statusMessage.textContent === 'Listening...') {
+                            statusMessage.textContent = 'No sound detected. Please try again.';
+                        }
+                        setTimeout(() => {
+                            voiceModal.classList.add('hidden');
+                        }, 2000);
+                    }, 5000);
+                }
+            }
+
+            startButton.addEventListener('click', startRecording);
+        });
+  </script>
+ </body>
+</html>
