@@ -1,4 +1,5 @@
 
+
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
@@ -64,107 +65,38 @@
   </style>
 
  </head>
- <body class="bg-gray-100 overflow-x-hidden">
-  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden" id="profile-popup">
-   <div class="bg-white border rounded-md shadow-md p-4 relative">
-    <button class="absolute top-2 right-2 text-xl" onclick="toggleProfilePopup()">
-     ×
-    </button>
-    <img alt="Profile Photo" class="w-16 h-16 rounded-full mx-auto" height="100" id="profile-photo" src="https://storage.googleapis.com/a1aa/image/x3xUjtLca5RWD39Q3RTM9pkUUxtdAqawUD2fPkaVvd4.jpg" width="100"/>
-    <p class="text-center mt-2" id="profile-name">
-     Abhishek
-    </p>
-    <table class="w-full mt-4 text-xs">
-     <tbody>
-      <tr>
-       <td class="font-semibold">
-        Username:
-       </td>
-       <td id="profile-username">
-        Abhishek
-       </td>
-      </tr>
-      <tr>
-       <td class="font-semibold">
-        Phone:
-       </td>
-       <td id="profile-phone">
-        9065856693
-       </td>
-      </tr>
-      <tr>
-       <td class="font-semibold">
-        Address:
-       </td>
-       <td id="profile-address">
-        pdp
-       </td>
-      </tr>
-     </tbody>
-    </table>
-    <button class="px-4 py-2 bg-red-500 text-white rounded-md mt-4" onclick="logout()">
-     Logout
-    </button>
-   </div>
-  </div>
-  <div class="flex items-center justify-between p-2 relative bg-white shadow-md">
-   <div class="relative flex flex-col items-center space-y-1">
-    <img alt="Profile Icon" class="w-12 h-12 rounded-full cursor-pointer" height="48" id="profile-icon" onclick="toggleProfilePopup()" src="https://storage.googleapis.com/a1aa/image/k-SEv5hDtkmG4bz5hl57N4bvqQ7vPhMgcKrdgiBmy4E.jpg" width="48"/>
-    <span class="text-blue-500 text-xs hidden" id="profile-username-mini">
-    </span>
-   </div>
-   <span class="text-xl font-bold absolute left-1/2 transform -translate-x-1/2">
-    Trendy Tides
-   </span>
-   <button class="px-4 py-2 bg-black text-white rounded-md" id="login-btn" onclick="toggleLoginPopup()">
-    Login
-   </button>
-  </div>
-  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden" id="login-popup">
-   <div class="bg-white border rounded-md shadow-md p-4 relative">
-    <button class="absolute top-2 right-2 text-xl" onclick="toggleLoginPopup()">
-     ×
-    </button>
-    <h2 class="text-center text-2xl font-bold mb-4">
-     Login
-    </h2>
-    <div class="mb-4">
-     <label class="block text-sm font-medium text-gray-700" for="username">
-      Username
-     </label>
-     <input class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" id="username" type="text"/>
+<body class="bg-gray-100 overflow-x-hidden">
+    <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden" id="profile-popup">
+        <div class="bg-white border rounded-md shadow-md p-4 relative">
+            <button class="absolute top-2 right-2 text-xl" onclick="toggleProfilePopup()">×</button>
+            <img alt="Profile Photo" class="w-16 h-16 rounded-full mx-auto" height="100" id="profile-photo" src="https://storage.googleapis.com/a1aa/image/w9QyZ0KYaW2EK-obQ9fyjaojDuiDOGnDE-ZtMsVBb0Q.jpg" width="100">
+            <p class="text-center mt-2" id="profile-name">Abhishek</p>
+            <table class="w-full mt-4 text-xs">
+                <tbody>
+                    <tr>
+                        <td class="font-semibold">Username:</td>
+                        <td id="profile-username">Abhishek</td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold">Phone:</td>
+                        <td id="profile-phone">9065856693</td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold">Address:</td>
+                        <td id="profile-address">pdp</td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="px-4 py-2 bg-red-500 text-white rounded-md mt-4" onclick="logout()">Logout</button>
+        </div>
     </div>
-    <div class="mb-4 relative">
-     <label class="block text-sm font-medium text-gray-700" for="password">
-      Password
-     </label>
-     <input class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" id="password" type="password"/>
-     <i class="fas fa-eye absolute right-3 top-3 cursor-pointer" id="password-icon" onclick="togglePasswordVisibility()">
-     </i>
+    <div class="flex items-center justify-between p-4 relative bg-white shadow-md">
+        <div class="relative">
+            <img alt="Profile Icon" class="w-10 h-10 rounded-full cursor-pointer" height="40" id="profile-icon" onclick="toggleProfilePopup()" src="https://storage.googleapis.com/a1aa/image/CyJ7393Jv6phNHwGJZGlA1MKPhwUXyAo8hGjMQgFSa8.jpg" width="40"/>
+        </div>
+        <span class="text-xl font-bold absolute left-1/2 transform -translate-x-1/2">Trendy Tides</span>
+        <button class="px-4 py-2 bg-black text-white rounded-md" id="login-btn" onclick="toggleLoginPopup()">Login</button>
     </div>
-    <div class="mb-4">
-     <label class="block text-sm font-medium text-gray-700" for="phone">
-      Phone
-     </label>
-     <input class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" id="phone" type="text"/>
-    </div>
-    <div class="mb-4">
-     <label class="block text-sm font-medium text-gray-700" for="address">
-      Address
-     </label>
-     <input class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" id="address" type="text"/>
-    </div>
-    <div class="mb-4">
-     <label class="block text-sm font-medium text-gray-700" for="profile-upload">
-      Profile Photo
-     </label>
-     <input class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100" id="profile-upload" type="file"/>
-    </div>
-    <button class="px-4 py-2 bg-blue-500 text-white rounded-md w-full" onclick="login()">
-     Login
-    </button>
-   </div>
-  </div>
     <!-- Search Bar -->
   <!-- Search Bar -->
     <div class="p-4" id="search-bar">
@@ -694,7 +626,7 @@ function showCategory(category) {
 
 
 
-   function toggleProfilePopup() {
+  function toggleProfilePopup() {
             const profilePopup = document.getElementById('profile-popup');
             const searchBar = document.getElementById('search-bar');
             const categories = document.querySelector('.flex.justify-around.p-4.border-b');
@@ -754,8 +686,6 @@ function showCategory(category) {
 
                     document.getElementById('login-popup').classList.add('hidden');
                     document.getElementById('login-btn').classList.add('hidden');
-                    document.getElementById('profile-username-mini').innerText = username;
-                    document.getElementById('profile-username-mini').classList.remove('hidden');
 
                     const loginData = {
                         username,
@@ -777,15 +707,13 @@ function showCategory(category) {
         function logout() {
             localStorage.removeItem('loginData');
             document.getElementById('profile-name').innerText = '';
-            document.getElementById('profile-photo').src = 'https://placehold.co/100x100?text=Profile+Photo';
-            document.getElementById('profile-icon').src = 'https://placehold.co/48x48?text=Profile+Icon';
+            document.getElementById('profile-photo').src = '';
+            document.getElementById('profile-icon').src = 'https://placehold.co/50x50?text=Profile+Icon';
             document.getElementById('profile-username').innerText = '';
             document.getElementById('profile-phone').innerText = '';
             document.getElementById('profile-address').innerText = '';
             document.getElementById('login-btn').classList.remove('hidden');
             document.getElementById('profile-popup').classList.add('hidden');
-            document.getElementById('profile-username-mini').innerText = '';
-            document.getElementById('profile-username-mini').classList.add('hidden');
             showToast('Logged out successfully!', 'success');
         }
 
@@ -819,8 +747,6 @@ function showCategory(category) {
 
                     document.getElementById('login-btn').classList.add('hidden');
                     document.getElementById('profile-popup').classList.add('hidden');
-                    document.getElementById('profile-username-mini').innerText = loginData.username;
-                    document.getElementById('profile-username-mini').classList.remove('hidden');
                 } else {
                     localStorage.removeItem('loginData');
                 }
@@ -828,6 +754,8 @@ function showCategory(category) {
         }
 
         document.addEventListener('DOMContentLoaded', checkLoginStatus);
+  
+
 
 
  document.addEventListener('DOMContentLoaded', function() {
