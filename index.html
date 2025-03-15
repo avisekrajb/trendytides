@@ -614,34 +614,27 @@
   </div>
 
 
-
-      <div class="flex items-center justify-center min-h-screen">
-   <div class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="holi-popup">
-    <div class="bg-white rounded-lg shadow-lg p-4 max-w-xs w-full text-center relative">
-     <h2 class="text-xl font-bold mb-2">
-      Trendy Tides
-     </h2>
-     <img alt="Animated GIF of people celebrating Holi by throwing colors in the air" class="mx-auto mb-4" height="150" src="https://media1.tenor.com/images/bb08ca1bb6b5a6bfab6aa44ad50dacd5/tenor.gif?itemid=13766276" width="225"/>
-     <p class="mb-4">
-      Happy Holi to you and your family!
-     </p>
-     <p class="mb-4">
-      How do you feel today?
-     </p>
-     <div class="flex justify-center space-x-2">
-      <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onclick="closePopup()">
-       Great
-      </button>
-      <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onclick="closePopup()">
-       Colorful
-      </button>
-      <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" onclick="closePopup()">
-       In Room
-      </button>
-     </div>
+ <div class="flex items-center justify-center min-h-screen">
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="holi-popup">
+            <div class="bg-white rounded-lg shadow-lg p-4 max-w-xs w-full text-center relative">
+                <h2 class="text-xl font-bold mb-2">Trendy Tides</h2>
+                <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbzcwdDl4a285ZXh2bmtyZ2hndTNkbmR0Z2NrdjIwNTM4YjR4YWVmeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/LpFTPYQoU12w2cD9kK/giphy.gif" alt="Animated GIF of people shopping with vibrant colors and excitement" class="mx-auto mb-4" width="225" height="225"/>
+                <p class="mb-4">Discover the latest trends in fashion and stay stylish!</p>
+                <p class="mb-4">Visit more</p>
+                <div class="flex justify-center space-x-2">
+                    <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" onclick="openPage('clothes.html')">Clothes</button>
+                    <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onclick="openPage('lehenga.html')">Lehenga</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" onclick="openPage('sari.html')">Sari</button>
+                </div>
+                <div class="flex justify-center mt-4 space-x-4">
+                    <marquee behavior="scroll" direction="right">
+                        <img src="https://www.clipartsfree.de/images/joomgallery/details/gifs_129/black_friday_473/shopping_gif_animation_20211117_1614898946.gif" alt="Animated GIF of a shopping cart with colorful items" width="100" height="75"/>
+                    </marquee>
+                    <img src="https://img1.picmix.com/output/stamp/normal/8/4/6/3/1553648_9d234.gif" alt="Animated GIF of a shopping cart with colorful items" width="50" height="37.5"/>
+                </div>
+            </div>
+        </div>
     </div>
-   </div>
-  </div>
 
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
   <script>
@@ -1433,14 +1426,24 @@ function showCategory(category) {
 
 
 
-   document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                document.getElementById('holi-popup').classList.remove('hidden');
-            }, 15000);
-        });
-
-        function closePopup() {
+   function closePopup() {
             document.getElementById('holi-popup').classList.add('hidden');
+        }
+
+        function showPopup() {
+            document.getElementById('holi-popup').classList.remove('hidden');
+        }
+
+        function openPage(page) {
+            window.location.href = page;
+        }
+
+        window.onload = function() {
+            setTimeout(showPopup, 5000); // Show after 20 seconds
+            setTimeout(showPopup, 120000); // Show after 2 minutes
+            setTimeout(showPopup, 300000); // Show after 5 minutes
+            setTimeout(showPopup, 600000); // Show after 10 minutes
+            setTimeout(showPopup, 1200000); // Show after 20 minutes
         }
 
     
