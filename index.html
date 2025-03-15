@@ -98,24 +98,33 @@
         <button class="px-4 py-2 bg-black text-white rounded-md" id="login-btn" onclick="toggleLoginPopup()">Login</button>
     </div>
     <!-- Search Bar -->
-  <!-- Search Bar -->
-    <div class="p-4" id="search-bar">
-        <div class="relative">
-            <i id="microphone-icon" class="fas fa-microphone absolute left-3 top-3 text-green-500 cursor-pointer"></i>
-            <div class="absolute left-8 top-3 h-6 border-r border-gray-300"></div>
-            <input class="w-full p-2 pl-12 border border-blue-500 rounded-full italic text-red-500 font-bold text-center" id="search-input" maxlength="15" placeholder="Shop for jewelry" type="text"/>
-            <i class="fas fa-search absolute right-3 top-3 text-green-500 font-bold"></i>
-            <div class="absolute w-full bg-white border rounded-lg mt-1 z-10 max-h-40 overflow-y-auto text-xs" id="suggestions-box"></div>
-        </div>
-    </div>
-
-    <!-- Voice Modal -->
-    <div id="voice-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden">
+ <!-- Voice Modal -->
+    <div id="voice-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden z-50">
         <div class="bg-white p-6 rounded-lg shadow-lg text-center">
             <i class="fas fa-microphone text-green-500 text-4xl mb-4"></i>
             <p class="mb-4" id="status-message">Click "Start" to begin recording</p>
             <button id="start-recording" class="bg-blue-500 text-white px-4 py-2 rounded-full">Start</button>
         </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="p-4" id="search-bar">
+        <div class="relative">
+            <i id="microphone-icon" class="fas fa-microphone absolute left-3 top-3 text-green-500 cursor-pointer"></i>
+            <i id="camera-icon" class="fas fa-camera absolute left-10 top-3 text-green-500 cursor-pointer"></i>
+            <div class="absolute left-16 top-3 h-6 border-r border-gray-300"></div>
+            <input class="w-full p-2 pl-20 border border-blue-500 rounded-full italic text-red-500 font-bold text-center" id="search-input" maxlength="15" placeholder="Shop for jewelry" type="text"/>
+            <i class="fas fa-search absolute right-3 top-3 text-green-500 font-bold"></i>
+            <div class="absolute w-full bg-white border rounded-lg mt-1 z-10 max-h-40 overflow-y-auto text-xs" id="suggestions-box"></div>
+        </div>
+    </div>
+
+    <!-- Hidden File Input for Camera Icon -->
+    <input type="file" id="file-input" class="hidden" accept="image/*">
+
+    <!-- Toast Message -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg hidden">
+        Photo uploaded successfully!
     </div>
     
     <!-- Categories -->
@@ -1245,11 +1254,15 @@ function showCategory(category) {
 
 
 
-       document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
             const microphoneIcon = document.getElementById('microphone-icon');
+            const cameraIcon = document.getElementById('camera-icon');
+            const fileInput = document.getElementById('file-input');
             const voiceModal = document.getElementById('voice-modal');
             const startButton = document.getElementById('start-recording');
             const statusMessage = document.getElementById('status-message');
+            const searchInput = document.getElementById('search-input');
+            const toast = document.getElementById('toast');
             let recognition;
 
             microphoneIcon.addEventListener('click', function() {
@@ -1259,6 +1272,34 @@ function showCategory(category) {
                     startRecording();
                 }, 2000);
             });
+
+            cameraIcon.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        showToast('Photo uploaded successfully!');
+                        // Simulate a call to Google API to get the corresponding result
+                        setTimeout(() => {
+                            const fakeApiResponse = 'Diamond Necklace';
+                            searchInput.value = fakeApiResponse;
+                        }, 1000);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.remove('hidden');
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 3000);
+            }
 
             function startRecording() {
                 if (!('webkitSpeechRecognition' in window)) {
@@ -1271,6 +1312,7 @@ function showCategory(category) {
 
                     recognition.onstart = function() {
                         statusMessage.textContent = 'Listening...';
+                        searchInput.classList.add('bg-red-100');
                     };
 
                     recognition.onspeechend = function() {
@@ -1279,8 +1321,9 @@ function showCategory(category) {
 
                     recognition.onresult = function(event) {
                         const transcript = event.results[0][0].transcript;
-                        document.getElementById('search-input').value = transcript;
+                        searchInput.value = transcript;
                         statusMessage.textContent = 'Recognized: ' + transcript;
+                        searchInput.classList.remove('bg-red-100');
                         setTimeout(() => {
                             voiceModal.classList.add('hidden');
                         }, 2000);
@@ -1289,6 +1332,7 @@ function showCategory(category) {
                     recognition.onerror = function(event) {
                         if (event.error === 'no-speech') {
                             statusMessage.textContent = 'No sound detected. Please try again.';
+                            searchInput.classList.remove('bg-red-100');
                         }
                     };
 
@@ -1298,6 +1342,7 @@ function showCategory(category) {
                         recognition.stop();
                         if (statusMessage.textContent === 'Listening...') {
                             statusMessage.textContent = 'No sound detected. Please try again.';
+                            searchInput.classList.remove('bg-red-100');
                         }
                         setTimeout(() => {
                             voiceModal.classList.add('hidden');
