@@ -128,14 +128,16 @@
         </div>
     </div>
     <!-- Categories -->
-   <div class="flex justify-around p-4 border-b bg-white">
+    <div class="flex justify-around p-4 border-b bg-white">
         <button class="px-4 py-2 bg-red-500 text-white" onclick="showCategory('all')">All</button>
         <button class="px-4 py-2 hover:text-red-500" onclick="showCategory('dress')">Dress</button>
         <button class="px-4 py-2 hover:text-red-500" onclick="showCategory('pants')">Pant</button>
         <button class="px-4 py-2 hover:text-red-500" onclick="showCategory('blazers')">Blazers</button>
-        <button class="px-4 py-2 hover:text-red-500" onclick="showCategory('jackets')">Jacket</button>
+        <button class="px-4 py-2 hover:text-red-500" onclick="showCategory('categories')">Categories</button>
     </div>
-    
+      <div id="content" class="p-4">
+        <!-- Content will be dynamically loaded here based on the category selected -->
+    </div>
     <!-- Login Popup -->
     <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="login-popup">
         <div class="bg-blue-500 p-3 rounded-t-md shadow-md relative animate-slide-up w-full max-w-xs mx-4 sm:mx-0">
@@ -1420,14 +1422,107 @@ function showCategory(category) {
         }
 
         window.onload = function() {
-            setTimeout(showPopup, 5000); // Show after 20 seconds
+      
             setTimeout(showPopup, 120000); // Show after 2 minutes
-            setTimeout(showPopup, 300000); // Show after 5 minutes
-            setTimeout(showPopup, 600000); // Show after 10 minutes
-            setTimeout(showPopup, 1200000); // Show after 20 minutes
+       
         }
 
-    
+
+
+
+
+
+
+     function showCategory(category) {
+            const content = document.getElementById('content');
+            content.innerHTML = '';
+
+            if (category === 'categories') {
+                content.innerHTML = `
+                    <div class="container mx-auto p-4">
+                        <h1 class="text-3xl font-bold mb-4">Clothes Categories</h1>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-red-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('boys-clothes.html', 'Boys Clothes', 'https://storage.googleapis.com/a1aa/image/JD6thUT53FWt129mfEZE1FfqXtdonyBYcUe6SNsOAKw.jpg')">
+                                <img alt="Icon representing Boys Clothes category" class="w-8 h-8 mr-2 bg-red-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/JD6thUT53FWt129mfEZE1FfqXtdonyBYcUe6SNsOAKw.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Boys Clothes</span>
+                            </div>
+                            <div class="bg-blue-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('girls-clothes.html', 'Girls Clothes', 'https://storage.googleapis.com/a1aa/image/thtYL_fyRIvj08tOCE551WU8djvidsa84Cb1uq3c_2A.jpg')">
+                                <img alt="Icon representing Girls Clothes category" class="w-8 h-8 mr-2 bg-blue-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/thtYL_fyRIvj08tOCE551WU8djvidsa84Cb1uq3c_2A.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Girls Clothes</span>
+                            </div>
+                            <div class="bg-green-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('jackets.html', 'Jackets', 'https://storage.googleapis.com/a1aa/image/jdUdsbGVS2Y8Q1JV6Y8x7D3GKoe43OGLCFsJ90oQToU.jpg')">
+                                <img alt="Icon representing Jackets category" class="w-8 h-8 mr-2 bg-green-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/jdUdsbGVS2Y8Q1JV6Y8x7D3GKoe43OGLCFsJ90oQToU.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Jackets</span>
+                            </div>
+                            <div class="bg-yellow-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('dresses.html', 'Dresses', 'https://storage.googleapis.com/a1aa/image/9wsgXUKQxmuKBJtWsk96ACPCxNIF34zdVKLZpTyUdV4.jpg')">
+                                <img alt="Icon representing Dresses category" class="w-8 h-8 mr-2 bg-yellow-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/9wsgXUKQxmuKBJtWsk96ACPCxNIF34zdVKLZpTyUdV4.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Dresses</span>
+                            </div>
+                            <div class="bg-purple-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('skirts.html', 'Skirts', 'https://storage.googleapis.com/a1aa/image/QNb2KNmslbTFwPM21uwgCZTMkljQtYk4x8hV5mCH7mM.jpg')">
+                                <img alt="Icon representing Skirts category" class="w-8 h-8 mr-2 bg-purple-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/QNb2KNmslbTFwPM21uwgCZTMkljQtYk4x8hV5mCH7mM.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Skirts</span>
+                            </div>
+                            <div class="bg-pink-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('shorts.html', 'Shorts', 'https://storage.googleapis.com/a1aa/image/VUr6pMRUOwO8M-RAmGXH37GsI7G8PKMSO5VXXAi8Cus.jpg')">
+                                <img alt="Icon representing Shorts category" class="w-8 h-8 mr-2 bg-pink-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/VUr6pMRUOwO8M-RAmGXH37GsI7G8PKMSO5VXXAi8Cus.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Shorts</span>
+                            </div>
+                            <div class="bg-orange-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('suits.html', 'Suits', 'https://storage.googleapis.com/a1aa/image/L_bDNXPjPIBQqY_1dcb-RkaLtD9HZZ5p2t-Q4uyXwvE.jpg')">
+                                <img alt="Icon representing Suits category" class="w-8 h-8 mr-2 bg-orange-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/L_bDNXPjPIBQqY_1dcb-RkaLtD9HZZ5p2t-Q4uyXwvE.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Suits</span>
+                            </div>
+                            <div class="bg-teal-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('sweaters.html', 'Sweaters', 'https://storage.googleapis.com/a1aa/image/e7MwfaynZhjRMTqJ__GFEGA1nVEqzwEN2ZBjbULZ3DY.jpg')">
+                                <img alt="Icon representing Sweaters category" class="w-8 h-8 mr-2 bg-teal-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/e7MwfaynZhjRMTqJ__GFEGA1nVEqzwEN2ZBjbULZ3DY.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Sweaters</span>
+                            </div>
+                            <div class="bg-indigo-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('blouses.html', 'Blouses', 'https://storage.googleapis.com/a1aa/image/Eb0vvXGdsX0vo20SQNZVkreX4KnB52VHrxPE9DicU4k.jpg')">
+                                <img alt="Icon representing Blouses category" class="w-8 h-8 mr-2 bg-indigo-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/Eb0vvXGdsX0vo20SQNZVkreX4KnB52VHrxPE9DicU4k.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Blouses</span>
+                            </div>
+                            <div class="bg-gray-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('coats.html', 'Coats', 'https://storage.googleapis.com/a1aa/image/r6sat5_kBwT_ivjk83hjuw06wMFHviuz3_zFZjQEFuk.jpg')">
+                                <img alt="Icon representing Coats category" class="w-8 h-8 mr-2 bg-gray-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/r6sat5_kBwT_ivjk83hjuw06wMFHviuz3_zFZjQEFuk.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Coats</span>
+                            </div>
+                            <div class="bg-lime-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('shoes.html', 'Shoes', 'https://storage.googleapis.com/a1aa/image/Clbs0ebQrqK_LYmsPfVBKB4iHQ0h7LOYqqEUDmdnJsk.jpg')">
+                                <img alt="Icon representing Shoes category" class="w-8 h-8 mr-2 bg-lime-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/Clbs0ebQrqK_LYmsPfVBKB4iHQ0h7LOYqqEUDmdnJsk.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Shoes</span>
+                            </div>
+                            <div class="bg-amber-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('hats.html', 'Hats', 'https://storage.googleapis.com/a1aa/image/nBp3AR53m1K118sUf0prCfo2-jmHI4Ztqzd6u_c8RmM.jpg')">
+                                <img alt="Icon representing Hats category" class="w-8 h-8 mr-2 bg-amber-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/nBp3AR53m1K118sUf0prCfo2-jmHI4Ztqzd6u_c8RmM.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Hats</span>
+                            </div>
+                            <div class="bg-rose-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('accessories.html', 'Accessories', 'https://storage.googleapis.com/a1aa/image/0XwQMtxh0eUkYVohzFxF1fZOpdbpNxUHHR0HomORCgA.jpg')">
+                                <img alt="Icon representing Accessories category" class="w-8 h-8 mr-2 bg-rose-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/0XwQMtxh0eUkYVohzFxF1fZOpdbpNxUHHR0HomORCgA.jpg" width="32"/>
+                                <span class="text-sm font-semibold">Accessories</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function showAlertAndRedirect(url, category, iconUrl) {
+            let timerInterval;
+            Swal.fire({
+                title: `<span style="color: red;">${category}</span>`,
+                html: `<img src="${iconUrl}" alt="Icon representing ${category} category" class="w-16 h-16 mx-auto mb-2"><br>You will be redirected in <b></b> seconds.`,
+                timer: 1000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    Swal.showLoading();
+                    const b = Swal.getHtmlContainer().querySelector('b');
+                    timerInterval = setInterval(() => {
+                        b.textContent = Math.ceil(Swal.getTimerLeft() / 1000);
+                    }, 100);
+                },
+                willClose: () => {
+                    clearInterval(timerInterval);
+                }
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    window.open(url, '_blank');
+                }
+            });
+        }
   </script>
  </body>
 </html>
