@@ -62,6 +62,19 @@
         .carousel-dot.active {
             background-color: darkred;
         }
+
+
+         @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        .rotate {
+            animation: rotate 2s linear infinite;
+        }
   </style>
 
  </head>
@@ -75,11 +88,11 @@
                 <tbody>
                     <tr>
                         <td class="font-semibold">Username:</td>
-                        <td id="profile-username">Abhishek</td>
+                        <td id="profile-username">Trendy_tides</td>
                     </tr>
                     <tr>
                         <td class="font-semibold">Phone:</td>
-                        <td id="profile-phone">9065856693</td>
+                        <td id="profile-phone">977</td>
                     </tr>
                     <tr>
                         <td class="font-semibold">Address:</td>
@@ -103,8 +116,8 @@
             <i id="microphone-icon" class="fas fa-microphone absolute left-3 top-3 text-green-500 cursor-pointer"></i>
             <i id="camera-icon" class="fas fa-camera absolute left-10 top-3 text-green-500 cursor-pointer"></i>
             <div class="absolute left-16 top-3 h-6 border-r border-gray-300"></div>
-            <input class="w-full p-2 pl-20 border border-blue-500 rounded-full italic text-red-500 font-bold text-center" id="search-input" maxlength="15" placeholder="Shop for jewelry" type="text"/>
-            <i class="fas fa-search absolute right-3 top-3 text-green-500 font-bold"></i>
+            <input class="w-full p-2 pl-20 pr-10 border border-blue-500 rounded-full italic text-red-500 font-bold text-center" id="search-input" maxlength="15" placeholder="Shop for jewelry" type="text"/>
+            <i id="settings-icon" class="fas fa-cog absolute right-3 top-3 text-green-500 cursor-pointer rotate"></i>
             <div class="absolute w-full bg-white border rounded-lg mt-1 z-10 max-h-40 overflow-y-auto text-xs" id="suggestions-box"></div>
         </div>
     </div>
@@ -127,6 +140,64 @@
             <button id="cancel-button" class="bg-red-500 text-white px-4 py-2 rounded-full">Cancel</button>
         </div>
     </div>
+
+    <!-- Settings Sidebar -->
+    <div id="settings-sidebar" class="fixed right-3 top-16 bg-white w-64 p-4 shadow-lg z-50 hidden" style="height: 30%;">
+        <button id="close-settings-sidebar" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+            <i class="fas fa-times text-2xl"></i>
+        </button>
+        <h2 class="text-xl font-bold mb-4">Settings</h2>
+        <div class="mb-4">
+            <label class="flex items-center justify-between">
+                <input type="checkbox" id="dark-mode-toggle" class="toggle-checkbox hidden">
+                <div class="toggle-slot relative w-12 h-6 bg-gray-300 rounded-full cursor-pointer">
+                    <div class="toggle-button absolute w-6 h-6 bg-white rounded-full shadow-md transform transition-transform"></div>
+                </div>
+            </label>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+            <button id="help-button" class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs">Help</button>
+            <button id="language-button" class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs">Language</button>
+            <button id="profile-button" class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs">Profile</button>
+            <button id="notifications-button" class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs">Notifications</button>
+            <button id="privacy-button" class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs">Privacy</button>
+            <button id="about-button" class="bg-blue-500 text-white px-2 py-1 rounded-full text-xs">About</button>
+        </div>
+    </div>
+
+    <!-- Content Section -->
+    <div id="content-section" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden z-50">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center relative w-1/2">
+            <button id="close-content-section" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times text-2xl"></i>
+            </button>
+            <div id="help-content" class="hidden">
+                <h2 class="text-xl font-bold mb-4">Help</h2>
+                <p>This is the help section content.</p>
+            </div>
+            <div id="language-content" class="hidden">
+                <h2 class="text-xl font-bold mb-4">Language</h2>
+                <p>This is the language section content.</p>
+            </div>
+            <div id="profile-content" class="hidden">
+                <h2 class="text-xl font-bold mb-4">Profile</h2>
+                <p>This is the profile section content.</p>
+            </div>
+            <div id="notifications-content" class="hidden">
+                <h2 class="text-xl font-bold mb-4">Notifications</h2>
+                <p>This is the notifications section content.</p>
+            </div>
+            <div id="privacy-content" class="hidden">
+                <h2 class="text-xl font-bold mb-4">Privacy</h2>
+                <p>This is the privacy section content.</p>
+            </div>
+            <div id="about-content" class="hidden">
+                <h2 class="text-xl font-bold mb-4">About</h2>
+                <p>This is the about section content.</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Categories -->
     <div class="flex justify-around p-4 border-b bg-white">
         <button class="px-4 py-2 bg-red-500 text-white" onclick="showCategory('all')">All</button>
@@ -385,7 +456,7 @@
      <button class="flex-1 px-2 py-1 border rounded-lg text-xs add-to-cart w-full sm:w-auto">
       Add to Bag
      </button>
-     <button class="flex-1 px-2 py-1 bg-black text-white rounded-lg text-xs buy-now w-full sm:w-auto" data-image="https://placehold.co/150x200?text=Casual+Pants+on+a+hanger" data-name="Casual Pants" data-price="70.99">
+     <button class="flex-1 px-2 py-1 bg-black text-white rounded-lg text-xs buy-now w-full sm:w-auto" data-image="https://storage.googleapis.com/a1aa/image/RV4lET1F2qG2FXLJKdxpYj4sxXaymOv8e61dWp6iUh4.jpg" data-name="Casual Pants" data-price="70.99">
       Buy Now
      </button>
     </div>
@@ -1260,7 +1331,7 @@ function showCategory(category) {
 
 
 
-        document.addEventListener('DOMContentLoaded', function() {
+         document.addEventListener('DOMContentLoaded', function() {
             const microphoneIcon = document.getElementById('microphone-icon');
             const cameraIcon = document.getElementById('camera-icon');
             const voiceModal = document.getElementById('voice-modal');
@@ -1269,6 +1340,24 @@ function showCategory(category) {
             const statusMessage = document.getElementById('status-message');
             const uploadPhotoButton = document.getElementById('upload-photo');
             const cancelButton = document.getElementById('cancel-button');
+            const settingsIcon = document.getElementById('settings-icon');
+            const settingsSidebar = document.getElementById('settings-sidebar');
+            const closeSettingsSidebar = document.getElementById('close-settings-sidebar');
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const helpButton = document.getElementById('help-button');
+            const languageButton = document.getElementById('language-button');
+            const profileButton = document.getElementById('profile-button');
+            const notificationsButton = document.getElementById('notifications-button');
+            const privacyButton = document.getElementById('privacy-button');
+            const aboutButton = document.getElementById('about-button');
+            const contentSection = document.getElementById('content-section');
+            const closeContentSection = document.getElementById('close-content-section');
+            const helpContent = document.getElementById('help-content');
+            const languageContent = document.getElementById('language-content');
+            const profileContent = document.getElementById('profile-content');
+            const notificationsContent = document.getElementById('notifications-content');
+            const privacyContent = document.getElementById('privacy-content');
+            const aboutContent = document.getElementById('about-content');
             let recognition;
 
             microphoneIcon.addEventListener('click', function() {
@@ -1375,12 +1464,100 @@ function showCategory(category) {
             }
 
             startButton.addEventListener('click', startRecording);
+
+            // Settings Sidebar
+            settingsIcon.addEventListener('click', function() {
+                settingsSidebar.classList.remove('hidden');
+            });
+
+            closeSettingsSidebar.addEventListener('click', function() {
+                settingsSidebar.classList.add('hidden');
+            });
+
+            darkModeToggle.addEventListener('change', function() {
+                if (darkModeToggle.checked) {
+                    document.body.classList.add('bg-gray-900', 'text-white');
+                } else {
+                    document.body.classList.remove('bg-gray-900', 'text-white');
+                }
+            });
+
+            helpButton.addEventListener('click', function() {
+                showContentSection('help');
+            });
+
+            languageButton.addEventListener('click', function() {
+                showContentSection('language');
+            });
+
+            profileButton.addEventListener('click', function() {
+                showContentSection('profile');
+            });
+
+            notificationsButton.addEventListener('click', function() {
+                showContentSection('notifications');
+            });
+
+            privacyButton.addEventListener('click', function() {
+                showContentSection('privacy');
+            });
+
+            aboutButton.addEventListener('click', function() {
+                showContentSection('about');
+            });
+
+            closeContentSection.addEventListener('click', function() {
+                contentSection.classList.add('hidden');
+            });
+
+            function showContentSection(section) {
+                contentSection.classList.remove('hidden');
+                helpContent.classList.add('hidden');
+                languageContent.classList.add('hidden');
+                profileContent.classList.add('hidden');
+                notificationsContent.classList.add('hidden');
+                privacyContent.classList.add('hidden');
+                aboutContent.classList.add('hidden');
+
+                switch (section) {
+                    case 'help':
+                        helpContent.classList.remove('hidden');
+                        break;
+                    case 'language':
+                        languageContent.classList.remove('hidden');
+                        break;
+                    case 'profile':
+                        profileContent.classList.remove('hidden');
+                        break;
+                    case 'notifications':
+                        notificationsContent.classList.remove('hidden');
+                        break;
+                    case 'privacy':
+                        privacyContent.classList.remove('hidden');
+                        break;
+                    case 'about':
+                        aboutContent.classList.remove('hidden');
+                        break;
+                }
+            }
+
+            // Toggle button animation
+            const toggleSlot = document.querySelector('.toggle-slot');
+            const toggleButton = document.querySelector('.toggle-button');
+
+            toggleSlot.addEventListener('click', function() {
+                darkModeToggle.checked = !darkModeToggle.checked;
+                toggleButton.style.transform = darkModeToggle.checked ? 'translateX(100%)' : 'translateX(0)';
+                darkModeToggle.dispatchEvent(new Event('change'));
+            });
+
+            // Hide sidebar when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!settingsSidebar.contains(event.target) && !settingsIcon.contains(event.target)) {
+                    settingsSidebar.classList.add('hidden');
+                }
+            });
         });
-
-
-
-
-  
 
 
 
