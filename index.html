@@ -89,7 +89,7 @@
             </table>
             <button class="px-4 py-2 bg-red-500 text-white rounded-md mt-4" onclick="logout()">Logout</button>
         </div>
-    </div>
+    </div>  
     <div class="flex items-center justify-between p-4 relative bg-white shadow-md">
         <div class="relative">
             <img alt="Profile Icon" class="w-10 h-10 rounded-full cursor-pointer" height="40" id="profile-icon" onclick="toggleProfilePopup()" src="https://storage.googleapis.com/a1aa/image/CyJ7393Jv6phNHwGJZGlA1MKPhwUXyAo8hGjMQgFSa8.jpg" width="40"/>
@@ -565,10 +565,10 @@
         </div>
     </div>
 
-      <div id="custom-notification" class="hidden fixed bottom-4 right-4 bg-blue-500 text-white p-4 rounded-lg shadow-lg flex items-center space-x-4">
+<!--       <div id="custom-notification" class="hidden fixed bottom-4 right-4 bg-blue-500 text-white p-4 rounded-lg shadow-lg flex items-center space-x-4">
         <i class="fas fa-info-circle"></i>
         <span>@ यो अभिषेक राजवंशी द्वारा विकास गरिएको हो !🇳🇵❤️!Welcome to Trendy_Tides </span>
-    </div>
+    </div> -->
 
 
       <div class="flex items-center justify-center h-screen">
@@ -593,7 +593,7 @@
 
 
 
-    <div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden" id="popup">
+<!--     <div class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 hidden" id="popup">
    <div class="bg-white p-6 rounded-lg shadow-lg w-80 relative">
     <div class="absolute top-2 left-2 text-gray-500" id="countdown">
      10s
@@ -614,9 +614,9 @@
     </a>
    </div>
   </div>
+ -->
 
-
- <div class="flex items-center justify-center min-h-screen">
+<!--  <div class="flex items-center justify-center min-h-screen">
         <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden" id="holi-popup">
             <div class="bg-white rounded-lg shadow-lg p-4 max-w-xs w-full text-center relative">
                 <h2 class="text-xl font-bold mb-2">Trendy Tides</h2>
@@ -636,7 +636,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>  -->
 
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
   <script>
@@ -691,7 +691,7 @@ function showCategory(category) {
             categories.classList.toggle('hidden');
         }
 
-        function showToast(message, type) {
+        function showToast(message, type) { 
             const toast = document.createElement('div');
             toast.className = `fixed bottom-4 right-4 p-4 rounded-md shadow-md flex items-center space-x-2 ${type === 'success' ? 'bg-green-500' : type === 'error' ? 'bg-red-500' : 'bg-blue-500'} text-white`;
             toast.innerHTML = `
@@ -812,7 +812,7 @@ function showCategory(category) {
             // Function to save cart items to local storage
             function saveCartItems() {
                 localStorage.setItem('cartItems', JSON.stringify(cartItems));
-            }
+            } 
 
             // Function to render cart items
             function renderCartItems() {
@@ -1137,95 +1137,95 @@ function showCategory(category) {
 
 
 
-     function showNotification(message) {
-            console.log("Attempting to show notification...");
+     // function showNotification(message) {
+     //        console.log("Attempting to show notification...");
 
-            // Check if the browser supports notifications
-            if ("Notification" in window) {
-                console.log("Notification API supported");
+     //        // Check if the browser supports notifications
+     //        if ("Notification" in window) {
+     //            console.log("Notification API supported");
 
-                // Check if the user has already granted permission for notifications
-                if (Notification.permission === "granted") {
-                    console.log("Permission granted, showing notification");
-                    // Show native notification (no styling for background or text)
-                    new Notification(message);
+     //            // Check if the user has already granted permission for notifications
+     //            if (Notification.permission === "granted") {
+     //                console.log("Permission granted, showing notification");
+     //                // Show native notification (no styling for background or text)
+     //                new Notification(message);
 
-                    // Show custom notification on the page
-                    const notification = document.getElementById("custom-notification");
-                    notification.querySelector('span').textContent = message;
-                    notification.style.display = "block";
+     //                // Show custom notification on the page
+     //                const notification = document.getElementById("custom-notification");
+     //                notification.querySelector('span').textContent = message;
+     //                notification.style.display = "block";
 
-                    // Hide custom notification after 5 seconds
-                    setTimeout(() => {
-                        notification.style.display = "none";
-                    }, 5000);
+     //                // Hide custom notification after 5 seconds
+     //                setTimeout(() => {
+     //                    notification.style.display = "none";
+     //                }, 5000);
 
-                    // Save the current time in local storage
-                    localStorage.setItem('lastNotificationTime', Date.now());
-                } else if (Notification.permission === "default") {
-                    console.log("Requesting permission...");
-                    // Ask for permission to show notifications
-                    Notification.requestPermission().then(permission => {
-                        if (permission === "granted") {
-                            console.log("Permission granted after request");
-                            new Notification(message);
+     //                // Save the current time in local storage
+     //                localStorage.setItem('lastNotificationTime', Date.now());
+     //            } else if (Notification.permission === "default") {
+     //                console.log("Requesting permission...");
+     //                // Ask for permission to show notifications
+     //                Notification.requestPermission().then(permission => {
+     //                    if (permission === "granted") {
+     //                        console.log("Permission granted after request");
+     //                        new Notification(message);
 
-                            // Show custom notification on the page
-                            const notification = document.getElementById("custom-notification");
-                            notification.querySelector('span').textContent = message;
-                            notification.style.display = "block";
+     //                        // Show custom notification on the page
+     //                        const notification = document.getElementById("custom-notification");
+     //                        notification.querySelector('span').textContent = message;
+     //                        notification.style.display = "block";
 
-                            // Hide custom notification after 5 seconds
-                            setTimeout(() => {
-                                notification.style.display = "none";
-                            }, 5000);
+     //                        // Hide custom notification after 5 seconds
+     //                        setTimeout(() => {
+     //                            notification.style.display = "none";
+     //                        }, 5000);
 
-                            // Save the current time in local storage
-                            localStorage.setItem('lastNotificationTime', Date.now());
-                        } else {
-                            console.log("Permission denied after request");
-                        }
-                    });
-                } else {
-                    console.log("Permission denied permanently");
-                }
-            } else {
-                console.log("Your browser does not support notifications.");
-                alert("Your browser does not support notifications.");
-            }
-        }
+     //                        // Save the current time in local storage
+     //                        localStorage.setItem('lastNotificationTime', Date.now());
+     //                    } else {
+     //                        console.log("Permission denied after request");
+     //                    }
+     //                });
+     //            } else {
+     //                console.log("Permission denied permanently");
+     //            }
+     //        } else {
+     //            console.log("Your browser does not support notifications.");
+     //            alert("Your browser does not support notifications.");
+     //        }
+     //    }
 
-        // Check if 5 days have passed since the last notification
-        function checkNotificationTime() {
-            const lastNotificationTime = localStorage.getItem('lastNotificationTime');
-            const currentTime = Date.now();
-            const fiveDaysInMilliseconds = 5 * 24 * 60 * 60 * 1000;
+     //    // Check if 5 days have passed since the last notification
+     //    function checkNotificationTime() {
+     //        const lastNotificationTime = localStorage.getItem('lastNotificationTime');
+     //        const currentTime = Date.now();
+     //        const fiveDaysInMilliseconds = 5 * 24 * 60 * 60 * 1000;
 
-            if (!lastNotificationTime || (currentTime - lastNotificationTime) > fiveDaysInMilliseconds) {
-                showNotification("@ यो अभिषेक राजवंशी द्वारा विकास गरिएको हो !🇳🇵❤️!Welcome to Trendy_Tides");
-            }
-        }
+     //        if (!lastNotificationTime || (currentTime - lastNotificationTime) > fiveDaysInMilliseconds) {
+     //            showNotification("@ यो अभिषेक राजवंशी द्वारा विकास गरिएको हो !🇳🇵❤️!Welcome to Trendy_Tides");
+     //        }
+     //    }
 
-        // Show daily morning notification
-        function showDailyMorningNotification() {
-            const now = new Date();
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
+     //    // Show daily morning notification
+     //    function showDailyMorningNotification() {
+     //        const now = new Date();
+     //        const hours = now.getHours();
+     //        const minutes = now.getMinutes();
 
-            // Check if it's morning (e.g., 7:00 AM)
-            if (hours === 7 && minutes === 0) {
-                showNotification("Good Morning!");
-            }
-        }
+     //        // Check if it's morning (e.g., 7:00 AM)
+     //        if (hours === 7 && minutes === 0) {
+     //            showNotification("Good Morning!");
+     //        }
+     //    }
 
-        // Show notification after 5 seconds if 5 days have passed
-        window.onload = () => {
-            console.log("Page loaded, waiting for 5 seconds...");
-            setTimeout(checkNotificationTime, 5000); // 5000 milliseconds = 5 seconds
+     //    // Show notification after 5 seconds if 5 days have passed
+     //    window.onload = () => {
+     //        console.log("Page loaded, waiting for 5 seconds...");
+     //        setTimeout(checkNotificationTime, 5000); // 5000 milliseconds = 5 seconds
 
-            // Check every minute for the daily morning notification
-            setInterval(showDailyMorningNotification, 60000); // 60000 milliseconds = 1 minute
-        };
+     //        // Check every minute for the daily morning notification
+     //        setInterval(showDailyMorningNotification, 60000); // 60000 milliseconds = 1 minute
+     //    };
 
 
 
@@ -1254,30 +1254,7 @@ function showCategory(category) {
 
 
 
-   document.addEventListener('DOMContentLoaded', function() {
-            const now = new Date();
-            const hours = now.getHours();
-            const greeting = hours < 12 ? 'Good morning!' : 'Good afternoon!';
-            document.getElementById('greeting').textContent = greeting;
 
-            if (!sessionStorage.getItem('popupShown')) {
-                document.getElementById('popup').classList.remove('hidden');
-                sessionStorage.setItem('popupShown', 'true');
-            }
-        });
-
-        document.getElementById('closePopup').addEventListener('click', function() {
-            document.getElementById('popup').style.display = 'none';
-        });
-
-        document.getElementById('okBtn').addEventListener('click', function() {
-            document.getElementById('popup').style.display = 'none';
-            const toast = document.getElementById('toast');
-            toast.classList.remove('hidden');
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 10000);
-        });
 
 
 
@@ -1409,120 +1386,7 @@ function showCategory(category) {
 
 
 
-   function closePopup() {
-            document.getElementById('holi-popup').classList.add('hidden');
-        }
 
-        function showPopup() {
-            document.getElementById('holi-popup').classList.remove('hidden');
-        }
-
-        function openPage(page) {
-            window.location.href = page;
-        }
-
-        window.onload = function() {
-      
-            setTimeout(showPopup, 120000); // Show after 2 minutes
-       
-        }
-
-
-
-
-
-
-
-     function showCategory(category) {
-            const content = document.getElementById('content');
-            content.innerHTML = '';
-
-            if (category === 'categories') {
-                content.innerHTML = `
-                    <div class="container mx-auto p-4">
-                        <h1 class="text-3xl font-bold mb-4">Clothes Categories</h1>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-red-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('boys-clothes.html', 'Boys Clothes', 'https://storage.googleapis.com/a1aa/image/JD6thUT53FWt129mfEZE1FfqXtdonyBYcUe6SNsOAKw.jpg')">
-                                <img alt="Icon representing Boys Clothes category" class="w-8 h-8 mr-2 bg-red-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/JD6thUT53FWt129mfEZE1FfqXtdonyBYcUe6SNsOAKw.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Boys Clothes</span>
-                            </div>
-                            <div class="bg-blue-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('girls-clothes.html', 'Girls Clothes', 'https://storage.googleapis.com/a1aa/image/thtYL_fyRIvj08tOCE551WU8djvidsa84Cb1uq3c_2A.jpg')">
-                                <img alt="Icon representing Girls Clothes category" class="w-8 h-8 mr-2 bg-blue-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/thtYL_fyRIvj08tOCE551WU8djvidsa84Cb1uq3c_2A.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Girls Clothes</span>
-                            </div>
-                            <div class="bg-green-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('jackets.html', 'Jackets', 'https://storage.googleapis.com/a1aa/image/jdUdsbGVS2Y8Q1JV6Y8x7D3GKoe43OGLCFsJ90oQToU.jpg')">
-                                <img alt="Icon representing Jackets category" class="w-8 h-8 mr-2 bg-green-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/jdUdsbGVS2Y8Q1JV6Y8x7D3GKoe43OGLCFsJ90oQToU.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Jackets</span>
-                            </div>
-                            <div class="bg-yellow-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('dresses.html', 'Dresses', 'https://storage.googleapis.com/a1aa/image/9wsgXUKQxmuKBJtWsk96ACPCxNIF34zdVKLZpTyUdV4.jpg')">
-                                <img alt="Icon representing Dresses category" class="w-8 h-8 mr-2 bg-yellow-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/9wsgXUKQxmuKBJtWsk96ACPCxNIF34zdVKLZpTyUdV4.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Dresses</span>
-                            </div>
-                            <div class="bg-purple-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('skirts.html', 'Skirts', 'https://storage.googleapis.com/a1aa/image/QNb2KNmslbTFwPM21uwgCZTMkljQtYk4x8hV5mCH7mM.jpg')">
-                                <img alt="Icon representing Skirts category" class="w-8 h-8 mr-2 bg-purple-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/QNb2KNmslbTFwPM21uwgCZTMkljQtYk4x8hV5mCH7mM.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Skirts</span>
-                            </div>
-                            <div class="bg-pink-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('shorts.html', 'Shorts', 'https://storage.googleapis.com/a1aa/image/VUr6pMRUOwO8M-RAmGXH37GsI7G8PKMSO5VXXAi8Cus.jpg')">
-                                <img alt="Icon representing Shorts category" class="w-8 h-8 mr-2 bg-pink-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/VUr6pMRUOwO8M-RAmGXH37GsI7G8PKMSO5VXXAi8Cus.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Shorts</span>
-                            </div>
-                            <div class="bg-orange-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('suits.html', 'Suits', 'https://storage.googleapis.com/a1aa/image/L_bDNXPjPIBQqY_1dcb-RkaLtD9HZZ5p2t-Q4uyXwvE.jpg')">
-                                <img alt="Icon representing Suits category" class="w-8 h-8 mr-2 bg-orange-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/L_bDNXPjPIBQqY_1dcb-RkaLtD9HZZ5p2t-Q4uyXwvE.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Suits</span>
-                            </div>
-                            <div class="bg-teal-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('sweaters.html', 'Sweaters', 'https://storage.googleapis.com/a1aa/image/e7MwfaynZhjRMTqJ__GFEGA1nVEqzwEN2ZBjbULZ3DY.jpg')">
-                                <img alt="Icon representing Sweaters category" class="w-8 h-8 mr-2 bg-teal-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/e7MwfaynZhjRMTqJ__GFEGA1nVEqzwEN2ZBjbULZ3DY.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Sweaters</span>
-                            </div>
-                            <div class="bg-indigo-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('blouses.html', 'Blouses', 'https://storage.googleapis.com/a1aa/image/Eb0vvXGdsX0vo20SQNZVkreX4KnB52VHrxPE9DicU4k.jpg')">
-                                <img alt="Icon representing Blouses category" class="w-8 h-8 mr-2 bg-indigo-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/Eb0vvXGdsX0vo20SQNZVkreX4KnB52VHrxPE9DicU4k.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Blouses</span>
-                            </div>
-                            <div class="bg-gray-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('coats.html', 'Coats', 'https://storage.googleapis.com/a1aa/image/r6sat5_kBwT_ivjk83hjuw06wMFHviuz3_zFZjQEFuk.jpg')">
-                                <img alt="Icon representing Coats category" class="w-8 h-8 mr-2 bg-gray-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/r6sat5_kBwT_ivjk83hjuw06wMFHviuz3_zFZjQEFuk.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Coats</span>
-                            </div>
-                            <div class="bg-lime-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('shoes.html', 'Shoes', 'https://storage.googleapis.com/a1aa/image/Clbs0ebQrqK_LYmsPfVBKB4iHQ0h7LOYqqEUDmdnJsk.jpg')">
-                                <img alt="Icon representing Shoes category" class="w-8 h-8 mr-2 bg-lime-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/Clbs0ebQrqK_LYmsPfVBKB4iHQ0h7LOYqqEUDmdnJsk.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Shoes</span>
-                            </div>
-                            <div class="bg-amber-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('hats.html', 'Hats', 'https://storage.googleapis.com/a1aa/image/nBp3AR53m1K118sUf0prCfo2-jmHI4Ztqzd6u_c8RmM.jpg')">
-                                <img alt="Icon representing Hats category" class="w-8 h-8 mr-2 bg-amber-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/nBp3AR53m1K118sUf0prCfo2-jmHI4Ztqzd6u_c8RmM.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Hats</span>
-                            </div>
-                            <div class="bg-rose-200 p-2 rounded-lg shadow-md flex items-center cursor-pointer" onclick="showAlertAndRedirect('accessories.html', 'Accessories', 'https://storage.googleapis.com/a1aa/image/0XwQMtxh0eUkYVohzFxF1fZOpdbpNxUHHR0HomORCgA.jpg')">
-                                <img alt="Icon representing Accessories category" class="w-8 h-8 mr-2 bg-rose-500 p-1 rounded-full" height="32" src="https://storage.googleapis.com/a1aa/image/0XwQMtxh0eUkYVohzFxF1fZOpdbpNxUHHR0HomORCgA.jpg" width="32"/>
-                                <span class="text-sm font-semibold">Accessories</span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-        }
-
-        function showAlertAndRedirect(url, category, iconUrl) {
-            let timerInterval;
-            Swal.fire({
-                title: `<span style="color: red;">${category}</span>`,
-                html: `<img src="${iconUrl}" alt="Icon representing ${category} category" class="w-16 h-16 mx-auto mb-2"><br>You will be redirected in <b></b> seconds.`,
-                timer: 1000,
-                timerProgressBar: true,
-                didOpen: () => {
-                    Swal.showLoading();
-                    const b = Swal.getHtmlContainer().querySelector('b');
-                    timerInterval = setInterval(() => {
-                        b.textContent = Math.ceil(Swal.getTimerLeft() / 1000);
-                    }, 100);
-                },
-                willClose: () => {
-                    clearInterval(timerInterval);
-                }
-            }).then((result) => {
-                if (result.dismiss === Swal.DismissReason.timer) {
-                    window.open(url, '_blank');
-                }
-            });
-        }
   </script>
  </body>
 </html>
