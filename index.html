@@ -1521,100 +1521,16 @@ function showCategory(category) {
 
             startButton.addEventListener('click', startRecording);
 
-            // Settings Sidebar
-            settingsIcon.addEventListener('click', function() {
-                settingsSidebar.classList.remove('hidden');
-            });
 
-            closeSettingsSidebar.addEventListener('click', function() {
-                settingsSidebar.classList.add('hidden');
-            });
 
-            darkModeToggle.addEventListener('change', function() {
-                if (darkModeToggle.checked) {
-                    document.body.classList.add('bg-gray-900', 'text-white');
-                } else {
-                    document.body.classList.remove('bg-gray-900', 'text-white');
-                }
-            });
 
-            helpButton.addEventListener('click', function() {
-                showContentSection('help');
-            });
 
-            languageButton.addEventListener('click', function() {
-                showContentSection('language');
-            });
 
-            profileButton.addEventListener('click', function() {
-                showContentSection('profile');
-            });
 
-            notificationsButton.addEventListener('click', function() {
-                showContentSection('notifications');
-            });
 
-            privacyButton.addEventListener('click', function() {
-                showContentSection('privacy');
-            });
 
-            aboutButton.addEventListener('click', function() {
-                showContentSection('about');
-            });
 
-            closeContentSection.addEventListener('click', function() {
-                contentSection.classList.add('hidden');
-            });
-
-            function showContentSection(section) {
-                contentSection.classList.remove('hidden');
-                helpContent.classList.add('hidden');
-                languageContent.classList.add('hidden');
-                profileContent.classList.add('hidden');
-                notificationsContent.classList.add('hidden');
-                privacyContent.classList.add('hidden');
-                aboutContent.classList.add('hidden');
-
-                switch (section) {
-                    case 'help':
-                        helpContent.classList.remove('hidden');
-                        break;
-                    case 'language':
-                        languageContent.classList.remove('hidden');
-                        break;
-                    case 'profile':
-                        profileContent.classList.remove('hidden');
-                        break;
-                    case 'notifications':
-                        notificationsContent.classList.remove('hidden');
-                        break;
-                    case 'privacy':
-                        privacyContent.classList.remove('hidden');
-                        break;
-                    case 'about':
-                        aboutContent.classList.remove('hidden');
-                        break;
-                }
-            }
-
-            // Toggle button animation
-            const toggleSlot = document.querySelector('.toggle-slot');
-            const toggleButton = document.querySelector('.toggle-button');
-
-            toggleSlot.addEventListener('click', function() {
-                darkModeToggle.checked = !darkModeToggle.checked;
-                toggleButton.style.transform = darkModeToggle.checked ? 'translateX(100%)' : 'translateX(0)';
-                darkModeToggle.dispatchEvent(new Event('change'));
-            });
-
-            // Hide sidebar when clicking outside
-            document.addEventListener('click', function(event) {
-                if (!settingsSidebar.contains(event.target) && !settingsIcon.contains(event.target)) {
-                    settingsSidebar.classList.add('hidden');
-                }
-            });
-        });
-
+    
 
 
 
