@@ -167,89 +167,33 @@
 
     <!-- Content Section -->
     <div id="content-section" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center hidden z-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg text-center relative w-full max-w-lg mx-4">
+        <div class="bg-white p-6 rounded-lg shadow-lg text-center relative w-1/2">
             <button id="close-content-section" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
                 <i class="fas fa-times text-2xl"></i>
             </button>
             <div id="help-content" class="hidden">
                 <h2 class="text-xl font-bold mb-4">Help</h2>
-                <div class="mt-4">
-                    <textarea class="w-full p-2 border border-gray-300 rounded-lg" rows="4" placeholder="Type your message here..." style="height: 145px;"></textarea>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full mt-2">I Know</button>
-                </div>
+                <p>This is the help section content.</p>
             </div>
             <div id="language-content" class="hidden">
                 <h2 class="text-xl font-bold mb-4">Language</h2>
-                <select class="w-full p-2 border border-gray-300 rounded-lg">
-                    <option value="english">English</option>
-                    <option value="nepali">Nepali</option>
-                    <option value="bangla">Bangla</option>
-                </select>
+                <p>This is the language section content.</p>
             </div>
             <div id="profile-content" class="hidden">
                 <h2 class="text-xl font-bold mb-4">Profile</h2>
-                <i class="fas fa-user text-green-500 text-4xl mb-4"></i>
-                <form id="profile-form">
-                    <div class="mb-4">
-                        <input type="text" id="name" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Name">
-                    </div>
-                    <div class="mb-4">
-                        <input type="text" id="address" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Address">
-                    </div>
-                    <div class="mb-4">
-                        <input type="text" id="phone" class="w-full p-2 border border-gray-300 rounded-lg" placeholder="Phone">
-                    </div>
-                    <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded-full" onclick="saveProfile()">Save</button>
-                </form>
-                <table class="w-full mt-4 border-collapse border border-gray-300">
-                    <thead>
-                        <tr>
-                            <th class="border border-gray-300 p-2">Name</th>
-                            <th class="border border-gray-300 p-2">Address</th>
-                            <th class="border border-gray-300 p-2">Phone</th>
-                        </tr>
-                    </thead>
-                    <tbody id="profile-table-body">
-                        <tr><td class="border border-gray-300 p-2">abhishek</td><td class="border border-gray-300 p-2">pdp</td><td class="border border-gray-300 p-2">9065856693</td></tr>
-                    </tbody>
-                </table>
-                <button id="delete-button" type="button" class="bg-red-500 text-white px-4 py-2 rounded-full mt-4 hidden" onclick="deleteLastFour()">Delete Last 4</button>
-                <button id="remove-all-button" type="button" class="bg-red-500 text-white px-4 py-2 rounded-full mt-4 hidden" onclick="removeAll()">Remove All</button>
+                <p>This is the profile section content.</p>
             </div>
             <div id="notifications-content" class="hidden">
-                <h2 class="text-xl font-bold mb-4">Notifications (5)</h2>
-                <i class="fas fa-bell text-red-500 text-4xl mb-4"></i>
-                <ul class="text-left max-h-40 overflow-y-auto"><li class="mb-2">Notification 1: You have a new message.</li><li class="mb-2">Notification 2: Your order has been shipped.</li><li class="mb-2">Notification 3: Your password was changed.</li><li class="mb-2">Notification 4: Your account was accessed from a new device.</li><li class="mb-2">Notification 5: Your subscription is about to expire.</li></ul>
+                <h2 class="text-xl font-bold mb-4">Notifications</h2>
+                <p>This is the notifications section content.</p>
             </div>
             <div id="privacy-content" class="hidden">
                 <h2 class="text-xl font-bold mb-4">Privacy</h2>
-                <p>Note: Please follow these 3 rules:</p>
-                <ul class="text-left mb-4">
-                    <li class="mb-2">1. Keep your password secure.</li>
-                    <li class="mb-2">2. Do not share personal information.</li>
-                    <li class="mb-2">3. Report suspicious activities.</li>
-                </ul>
-                <label class="flex items-center mb-4">
-                    <input type="checkbox" class="mr-2">
-                    I agree to follow these rules.
-                </label>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-full">Follow</button>
+                <p>This is the privacy section content.</p>
             </div>
-            <div id="about-content" class="">
+            <div id="about-content" class="hidden">
                 <h2 class="text-xl font-bold mb-4">About</h2>
                 <p>This is the about section content.</p>
-                <div id="refer-content" class="mt-4">
-                    <h2 class="text-xl font-bold mb-4">Refer and Earn 50 + 50</h2>
-                    <div class="grid grid-cols-3 gap-4">
-                        <i class="fab fa-facebook text-blue-600 text-4xl"></i>
-                        <i class="fab fa-twitter text-blue-400 text-4xl"></i>
-                        <i class="fab fa-instagram text-pink-500 text-4xl"></i>
-                        <i class="fab fa-linkedin text-blue-700 text-4xl"></i>
-                        <i class="fab fa-whatsapp text-green-500 text-4xl"></i>
-                        <i class="fab fa-telegram text-blue-500 text-4xl"></i>
-                    </div>
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded-full mt-4" onclick="copyLink()">Copy Link</button>
-                </div>
             </div>
         </div>
     </div>
@@ -1521,163 +1465,103 @@ function showCategory(category) {
 
             startButton.addEventListener('click', startRecording);
 
-
-
-
-
-
-
-
-
-
-    
-
-
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const settingsIcon = document.getElementById('settings-icon');
-            const settingsSidebar = document.getElementById('settings-sidebar');
-            const closeSettingsSidebar = document.getElementById('close-settings-sidebar');
-            const contentSection = document.getElementById('content-section');
-            const closeContentSection = document.getElementById('close-content-section');
-
-            settingsIcon.addEventListener('click', function () {
-                settingsSidebar.classList.toggle('hidden');
+            // Settings Sidebar
+            settingsIcon.addEventListener('click', function() {
+                settingsSidebar.classList.remove('hidden');
             });
 
-            closeSettingsSidebar.addEventListener('click', function () {
+            closeSettingsSidebar.addEventListener('click', function() {
                 settingsSidebar.classList.add('hidden');
             });
 
-            closeContentSection.addEventListener('click', function () {
+            darkModeToggle.addEventListener('change', function() {
+                if (darkModeToggle.checked) {
+                    document.body.classList.add('bg-gray-900', 'text-white');
+                } else {
+                    document.body.classList.remove('bg-gray-900', 'text-white');
+                }
+            });
+
+            helpButton.addEventListener('click', function() {
+                showContentSection('help');
+            });
+
+            languageButton.addEventListener('click', function() {
+                showContentSection('language');
+            });
+
+            profileButton.addEventListener('click', function() {
+                showContentSection('profile');
+            });
+
+            notificationsButton.addEventListener('click', function() {
+                showContentSection('notifications');
+            });
+
+            privacyButton.addEventListener('click', function() {
+                showContentSection('privacy');
+            });
+
+            aboutButton.addEventListener('click', function() {
+                showContentSection('about');
+            });
+
+            closeContentSection.addEventListener('click', function() {
                 contentSection.classList.add('hidden');
             });
 
-            const buttons = ['help', 'language', 'profile', 'notifications', 'privacy', 'about'];
-            buttons.forEach(button => {
-                document.getElementById(`${button}-button`).addEventListener('click', function () {
-                    contentSection.classList.remove('hidden');
-                    buttons.forEach(btn => {
-                        document.getElementById(`${btn}-content`).classList.add('hidden');
-                    });
-                    document.getElementById(`${button}-content`).classList.remove('hidden');
-                });
+            function showContentSection(section) {
+                contentSection.classList.remove('hidden');
+                helpContent.classList.add('hidden');
+                languageContent.classList.add('hidden');
+                profileContent.classList.add('hidden');
+                notificationsContent.classList.add('hidden');
+                privacyContent.classList.add('hidden');
+                aboutContent.classList.add('hidden');
+
+                switch (section) {
+                    case 'help':
+                        helpContent.classList.remove('hidden');
+                        break;
+                    case 'language':
+                        languageContent.classList.remove('hidden');
+                        break;
+                    case 'profile':
+                        profileContent.classList.remove('hidden');
+                        break;
+                    case 'notifications':
+                        notificationsContent.classList.remove('hidden');
+                        break;
+                    case 'privacy':
+                        privacyContent.classList.remove('hidden');
+                        break;
+                    case 'about':
+                        aboutContent.classList.remove('hidden');
+                        break;
+                }
+            }
+
+            // Toggle button animation
+            const toggleSlot = document.querySelector('.toggle-slot');
+            const toggleButton = document.querySelector('.toggle-button');
+
+            toggleSlot.addEventListener('click', function() {
+                darkModeToggle.checked = !darkModeToggle.checked;
+                toggleButton.style.transform = darkModeToggle.checked ? 'translateX(100%)' : 'translateX(0)';
+                darkModeToggle.dispatchEvent(new Event('change'));
             });
 
-            // Hide sidebar if clicked outside
-            document.addEventListener('click', function (event) {
+            // Hide sidebar when clicking outside
+            document.addEventListener('click', function(event) {
                 if (!settingsSidebar.contains(event.target) && !settingsIcon.contains(event.target)) {
                     settingsSidebar.classList.add('hidden');
                 }
             });
-
-            // Load notifications from local storage
-            const notifications = JSON.parse(localStorage.getItem('notifications')) || [
-                "Notification 1: You have a new message.",
-                "Notification 2: Your order has been shipped.",
-                "Notification 3: Your password was changed.",
-                "Notification 4: Your account was accessed from a new device.",
-                "Notification 5: Your subscription is about to expire."
-            ];
-
-            const notificationList = document.querySelector('#notifications-content ul');
-            notifications.forEach(notification => {
-                const li = document.createElement('li');
-                li.className = 'mb-2';
-                li.textContent = notification;
-                notificationList.appendChild(li);
-            });
-
-            document.querySelector('#notifications-content h2').textContent = `Notifications (${notifications.length})`;
-
-            // Make notifications scrollable if more than 4
-            if (notifications.length > 4) {
-                notificationList.classList.add('max-h-40', 'overflow-y-auto');
-            }
         });
 
-        function saveProfile() {
-            const name = document.getElementById('name').value;
-            const address = document.getElementById('address').value;
-            const phone = document.getElementById('phone').value;
 
-            if (name && address && phone) {
-                const tableBody = document.getElementById('profile-table-body');
-                if (tableBody.children.length >= 5) {
-                    alert('You can only add up to 5 details.');
-                    return;
-                }
 
-                const row = document.createElement('tr');
 
-                const nameCell = document.createElement('td');
-                nameCell.className = 'border border-gray-300 p-2';
-                nameCell.textContent = name;
-
-                const addressCell = document.createElement('td');
-                addressCell.className = 'border border-gray-300 p-2';
-                addressCell.textContent = address;
-
-                const phoneCell = document.createElement('td');
-                phoneCell.className = 'border border-gray-300 p-2';
-                phoneCell.textContent = phone;
-
-                row.appendChild(nameCell);
-                row.appendChild(addressCell);
-                row.appendChild(phoneCell);
-
-                tableBody.appendChild(row);
-
-                document.getElementById('profile-form').reset();
-                document.getElementById('delete-button').classList.remove('hidden');
-                document.getElementById('remove-all-button').classList.remove('hidden');
-            } else {
-                alert('Please fill out all fields.');
-            }
-        }
-
-        function deleteLastFour() {
-            const tableBody = document.getElementById('profile-table-body');
-            const rows = tableBody.children;
-            const rowsToDelete = Math.min(4, rows.length);
-            for (let i = 0; i < rowsToDelete; i++) {
-                tableBody.removeChild(rows[rows.length - 1]);
-            }
-            document.getElementById('delete-button').classList.add('hidden');
-        }
-
-        function removeAll() {
-            const tableBody = document.getElementById('profile-table-body');
-            while (tableBody.firstChild) {
-                tableBody.removeChild(tableBody.firstChild);
-            }
-            document.getElementById('delete-button').classList.add('hidden');
-            document.getElementById('remove-all-button').classList.add('hidden');
-        }
-
-        function removeAllNotifications() {
-            const notificationsContent = document.getElementById('notifications-content');
-            const notificationList = notificationsContent.querySelector('ul');
-            while (notificationList.firstChild) {
-                notificationList.removeChild(notificationList.firstChild);
-            }
-            notificationsContent.querySelector('h2').textContent = 'Notifications (0)';
-            document.getElementById('remove-notifications-button').remove();
-            localStorage.removeItem('notifications');
-        }
-
-        function copyLink() {
-            const dummy = document.createElement('input');
-            const text = window.location.href;
-
-            document.body.appendChild(dummy);
-            dummy.value = text;
-            dummy.select();
-            document.execCommand('copy');
-            document.body.removeChild(dummy);
-
-            alert('Link copied to clipboard!');
-        }
 
 
   </script>
