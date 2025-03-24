@@ -75,6 +75,23 @@
         .rotate {
             animation: rotate 2s linear infinite;
         }
+
+     .chat-box {
+            display: none;
+        }
+        .time-stamp {
+            font-size: 0.75rem;
+            color: gray;
+            text-align: center;
+            margin: 0.5rem 0;
+        }
+        .keyword {
+            background-color: #f3f4f6;
+            border-radius: 0.25rem;
+            padding: 0.25rem 0.5rem;
+            margin: 0.25rem;
+            cursor: pointer;
+        }
   </style>
 
  </head>
@@ -708,6 +725,49 @@
             </div>
         </div>
     </div>  -->
+
+
+
+   <div id="chat-icon-container" class="fixed bottom-4 right-4">
+        <button id="chat-icon" class="bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+            <i class="fas fa-comments"></i>
+        </button>
+    </div>
+
+    <!-- Chat Box -->
+    <div id="chat-box" class="chat-box fixed bottom-20 right-4 w-80 bg-white shadow-lg rounded-lg p-4 border-t-4 border-red-500 border-b-4 border-green-500">
+        <div class="flex justify-between items-center border-b pb-2 mb-2">
+            <h2 class="text-lg font-semibold text-green-500">Trendy Tides</h2>
+            <button id="close-chat" class="text-red-500 font-bold hover:text-red-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="chat-content h-64 overflow-y-auto mb-2 flex flex-col-reverse space-y-4">
+            <div class="p-2 bg-gray-200 rounded mb-2 self-start">Thank you for your message. How can I assist you with our clothing products?</div>
+            <div class="time-stamp">12:00 PM, 01/01/2023</div>
+            <div class="p-2 bg-blue-100 rounded mb-2 self-end flex justify-between items-center">
+                <span>hlo</span>
+            </div>
+            <div class="time-stamp">12:01 PM, 01/01/2023</div>
+            <div class="p-2 bg-gray-100 rounded mb-2 self-start">Thank you for your message. How can I assist you with our clothing products?</div>
+            <div class="time-stamp">12:02 PM, 01/01/2023</div>
+            <div class="p-2 bg-blue-100 rounded mb-2 self-end flex justify-between items-center">
+                <span>i need help</span>
+            </div>
+        </div>
+        <div class="flex flex-wrap mb-2">
+            <div class="keyword" data-keyword="Lehanga">Lehanga</div>
+            <div class="keyword" data-keyword="Saree">Saree</div>
+            <div class="keyword" data-keyword="Kurta">Kurta</div>
+            <div class="keyword" data-keyword="Dress">Dress</div>
+        </div>
+        <div class="flex">
+            <input id="chat-input" type="text" class="flex-grow border border-green-500 rounded-l-lg p-2" placeholder="Type a message...">
+            <button id="send-button" class="bg-blue-500 text-white p-2 rounded-r-lg hover:bg-blue-600">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
 
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
   <script>
@@ -1562,7 +1622,139 @@ function showCategory(category) {
 
 
 
+  document.getElementById('chat-icon').addEventListener('click', function() {
+            document.getElementById('chat-box').style.display = 'block';
+            document.getElementById('chat-icon-container').style.display = 'none';
+        });
 
+        document.getElementById('close-chat').addEventListener('click', function() {
+            document.getElementById('chat-box').style.display = 'none';
+            document.getElementById('chat-icon-container').style.display = 'block';
+        });
+
+        function sendMessage(message) {
+            const chatContent = document.querySelector('.chat-content');
+            const newMessage = document.createElement('div');
+            newMessage.className = 'p-2 bg-blue-100 rounded mb-2 self-end flex justify-between items-center';
+            newMessage.innerHTML = `<span>${message}</span>`;
+            chatContent.insertBefore(newMessage, chatContent.firstChild);
+
+            const userTimestamp = document.createElement('div');
+            userTimestamp.className = 'time-stamp';
+            const now = new Date();
+            userTimestamp.innerHTML = now.toLocaleTimeString() + ', ' + now.toLocaleDateString();
+            chatContent.insertBefore(userTimestamp, chatContent.firstChild);
+
+            const verifyingIcon = document.createElement('div');
+            verifyingIcon.classList.add('p-2', 'rounded', 'mb-2', 'self-start', 'text-center');
+            verifyingIcon.innerHTML = '<i class="fas fa-spinner fa-spin text-pink-500"></i>';
+            chatContent.prepend(verifyingIcon);
+
+            setTimeout(() => {
+                verifyingIcon.innerHTML = '<i class="fas fa-spinner fa-spin text-blue-500"></i>';
+            }, 2000);
+
+            setTimeout(() => {
+                chatContent.removeChild(verifyingIcon);
+
+                let replyMessage = '';
+                switch (message.toLowerCase()) {
+                    case 'lehanga':
+                        replyMessage = 'Lehanga is red color and Pranita wear this';
+                        break;
+                    case 'saree':
+                        replyMessage = 'Your saree is beautiful';
+                        break;
+                    case 'kurta':
+                        replyMessage = 'Kurta wear in black color is attractive';
+                        break;
+                    case 'dress':
+                        replyMessage = 'Dress are many types';
+                        break;
+                    case 'price':
+                    case 'cost':
+                        replyMessage = `
+                            <table class="min-w-full bg-white">
+                                <thead>
+                                    <tr>
+                                        <th class="py-2 px-4 border-b">Item</th>
+                                        <th class="py-2 px-4 border-b">Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">Lehanga</td>
+                                        <td class="py-2 px-4 border-b">$100</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">Skirts</td>
+                                        <td class="py-2 px-4 border-b">$50</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">T-Shirts</td>
+                                        <td class="py-2 px-4 border-b">$20</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4 border-b">Dress</td>
+                                        <td class="py-2 px-4 border-b">$80</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        `;
+                        break;
+                    default:
+                        if (message.toLowerCase().includes('trendy') || message.toLowerCase().includes('tides')) {
+                            replyMessage = 'Welcome to Trendy Tides, owner - Pranita';
+                        } else {
+                            replyMessage = 'I am not sure about that.';
+                        }
+                }
+
+                if (replyMessage) {
+                    const reply = document.createElement('div');
+                    reply.className = 'p-2 bg-gray-200 rounded mb-2 self-start';
+                    reply.innerHTML = replyMessage;
+
+                    if (message.toLowerCase() === 'kurta') {
+                        const image = document.createElement('img');
+                        image.src = 'https://placehold.co/50x50';
+                        image.alt = 'A small image of a black kurta';
+                        image.className = 'mt-2';
+                        reply.appendChild(image);
+                    } else if (message.toLowerCase() === 'dress') {
+                        const buttonContainer = document.createElement('div');
+                        buttonContainer.className = 'mt-2 flex space-x-2';
+                        const maleButton = document.createElement('button');
+                        maleButton.className = 'bg-blue-500 text-white px-2 py-1 rounded';
+                        maleButton.innerText = 'Male';
+                        const femaleButton = document.createElement('button');
+                        femaleButton.className = 'bg-pink-500 text-white px-2 py-1 rounded';
+                        femaleButton.innerText = 'Female';
+                        buttonContainer.appendChild(maleButton);
+                        buttonContainer.appendChild(femaleButton);
+                        reply.appendChild(buttonContainer);
+                    }
+
+                    chatContent.insertBefore(reply, chatContent.firstChild);
+                }
+            }, 4000);
+        }
+
+        document.getElementById('send-button').addEventListener('click', function() {
+            const chatInput = document.getElementById('chat-input');
+            const message = chatInput.value.trim();
+            if (message) {
+                sendMessage(message);
+                chatInput.value = '';
+            }
+        });
+
+        document.querySelectorAll('.keyword').forEach(keyword => {
+            keyword.addEventListener('click', function() {
+                const message = this.getAttribute('data-keyword');
+                sendMessage(message);
+            });
+        });
 
   </script>
  </body>
